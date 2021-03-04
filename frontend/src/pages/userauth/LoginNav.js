@@ -56,9 +56,9 @@ class LoginNav extends Component {
 
 const mapStateToProps = (state) => {
     console.log("state", state);
-  return {
-    auth: state.auth
-  }
+    return {
+        auth: state.auth
+    }
 }
 
 export default connect(mapStateToProps, {logout})(LoginNav)

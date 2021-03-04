@@ -41,13 +41,13 @@ class signupRouter {
         try {
             let userInfo = await this.findOne(db, sql);
             if (userInfo) {                // judge email is exists;
-                res.status(400).json({username: 'Username already exists, please try another one'})
+                res.status(400).json({msg: 'Username already exists, please try another one'})
                 return;
             }
             sql = `SELECT * FROM ACCOUNT WHERE Email ='${email}'`;
             userInfo = await this.findOne(db, sql);
             if (userInfo) {                // judge email is exists;
-                res.status(400).json({email: 'Email already exists, please try another one'})
+                res.status(400).json({msg: 'Email already exists, please try another one'})
                 return;
             }
 
@@ -56,8 +56,9 @@ class signupRouter {
             sql = `insert into ACCOUNT(username, email, psswd, phone) values ('${username}','${email}', '${password}', '${phone}')`;
             const data = await this.execSQL(db, sql);
             db.commit();//                                            commit transaction
+            console.log("data!!!!!!", data);
             if (data) {                // judge email is exists;
-                res.status(200).json({msg: 'register success'})
+                res.status(200).json({user: username, msg: 'register success'})
                 return;
             }
             // res.json({ success: true, msg: 'register success' })

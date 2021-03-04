@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Button, Form, Col, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {userSignupRequest} from '../../actions/signupActions'
 
 class SignupForm extends Component{
     constructor(props){
@@ -22,30 +24,42 @@ class SignupForm extends Component{
         this.setState({[e.target.name]: e.target.value})
     }
 
+    refreshPage = (e) => {
+        window.location.replace("/home");
+    }
+
     onSubmit = (e) => {
         this.setState({error: ''})
         e.preventDefault();
         this.props.userSignupRequest(this.state).then(
-            ()=>{},
+            (res)=>{
+                if(this.props.msg && this.props.msg.msg)
+                    this.setState({errors: this.props.msg})
+                console.log("this.props.msg",this.props.msg);
+                if(this.props.msg && this.props.msg.success){
+                    console.log("this.props.msg",this.props.msg);
+                    console.log("this.props.msg.success",this.props.msg.success);
+                    setTimeout(this.refreshPage, 5000);
+                }
+            },
             ({response}) => {
-                console.log(response.data);
-                this.setState({errors: response.data})
-                if(this.state.error.msg)
-                    alert(this.state.error.msg)
+                console.log("fail");
             }
         )
     }
 
     render(){
-        const {errors} = this.state;
-        console.log("errors:", errors);
+        if(this.state.errors){
+            alert(this.state.errors.msg)
+            this.setState({errors:''})
+        }
         return (
         <Form style={{width: "50vw", padding: "4rem"}} onSubmit={this.onSubmit} method="POST">
 
             <Form.Group controlId="formGridUsername">
                 <Form.Label>Hi there! My name is</Form.Label>
                 <Form.Control type="text" placeholder="Username" value={this.state.username} onChange={this.onChange} required name="username"/>
-                {errors.username && <span>{errors.username}</span>}
+                {/* {errors.username && <span>{errors.username}</span>} */}
             </Form.Group>
 
             <Form.Group controlId="formGridPassword">
@@ -56,7 +70,7 @@ class SignupForm extends Component{
             <Form.Group controlId="formGridEmail">
                 <Form.Label>Here’s my email address: </Form.Label>
                 <Form.Control type="email" placeholder="Email 123@gmail.com" value={this.state.email} onChange={this.onChange} required name="email"/>
-                {errors.email && <span>{errors.email}</span>}
+                {/* {errors.email && <span>{errors.email}</span>} */}
             </Form.Group>
 
             <Form.Group controlId="formGridPhone">
@@ -79,4 +93,11 @@ class SignupForm extends Component{
         )
     }
 }
-export default SignupForm
+const mapStateToProps = (state) => {
+    console.log("state", state);
+    return {
+        msg: state.auth.msg
+    }
+}
+
+export default connect(mapStateToProps, {userSignupRequest})(SignupForm)
