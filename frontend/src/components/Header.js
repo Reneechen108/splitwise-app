@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import LoginNav from '../pages/userauth/LoginNav'
 
 class Header extends Component {
+    
     static propTypes = {
         auth: PropTypes.object.isRequired
     }
@@ -35,7 +36,7 @@ class Header extends Component {
         )
 
         const signoutLink = (
-            <LoginNav name={this.props.auth.user.username}/>
+            <LoginNav />
         )
 
         return (
@@ -48,9 +49,9 @@ class Header extends Component {
 
 const mapStateToProps = (state) => {
     console.log("state", state);
-  return {
-    auth: state.auth
-  }
+    return {
+        auth: state.auth
+    }
 }
 
 export default connect(mapStateToProps)(Header)

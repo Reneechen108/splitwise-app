@@ -81,7 +81,7 @@ function Expenses(props) {
         </Col>
         <Col sm={3}>
             <h4>GROUP BALANCES</h4>
-            <Balance id={props.expense[0].G_ID}/>
+            <Balance id={props.expense[0].G_ID} key={Math.random()}/>
             <a href="#">View details ...</a>
         </Col>
         </>

@@ -32,16 +32,16 @@ function Balance(props) {
 
     let userTotal;
     if(userInfo)
-        userTotal = userInfo.map(info => <>
-        <Row>
-            <Col md={3}>
+        userTotal = userInfo.map((info, index) => <>
+        <Row key={Math.random()}>
+            <Col md={3} key={Math.random()}>
             <Image src={info.picture} roundedCircle style={{width: "40px", height: "40px"}}/>
             </Col>
-            <Col>
-                <Row>
+            <Col key={Math.random()}>
+                <Row key={Math.random()}>
                     <h5>{info.username}</h5>
                 </Row>
-                <Row>
+                <Row key={Math.random()}>
                     {
                     info.total > 0 ?
                     <h6><span>owes</span> USD ${Number(info.total).toFixed(2)}</h6> : <h6><span>gets back</span> USD ${Number(-info.total).toFixed(2)}</h6>

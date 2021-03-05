@@ -179,8 +179,8 @@ class DashNav extends React.Component {
         return (
         <>
         <ul className="list-group list-group-flush">
-            <li className="list-group-item"><a href="/dashboard"><img src={logo} style={{width: "30px"}}/><strong style={{color: "green"}}>Dashboard</strong></a></li>
-            <li className="list-group-item"><Button variant="link" onClick={this.recent}><FontAwesomeIcon icon={faFlag} /><strong> Recent activity</strong></Button></li>
+            <li className="list-group-item" key={Math.random()}><a href="/dashboard"><img src={logo} style={{width: "30px"}}/><strong style={{color: "green"}}>Dashboard</strong></a></li>
+            <li className="list-group-item" key={Math.random()}><Button variant="link" onClick={this.recent}><FontAwesomeIcon icon={faFlag} /><strong> Recent activity</strong></Button></li>
             <Create search={this.search}/>
             {displayGroup && displayGroup.length > 0 ? displayGroup : this.state.found}
             {invitation}

@@ -35,7 +35,6 @@ function Profile() {
     function toggleDisplay(){
         if(display === "none"){
             setDisplay("display")
-            console.log("this is user: ", user);
             setup()
         }
         else
@@ -64,21 +63,21 @@ function Profile() {
 
     function handleUpdate(){
         toggleDisplay();
-        console.log(username, email, phone);
+        // console.log(username, email, phone);
         let newInfo = {
             username: username,
             email: email,
             phone: phone
         }
-        console.log("user[0]", user[0]);
-        console.log("newInfo", newInfo);
+        // console.log("user[0]", user[0]);
+        // console.log("newInfo", newInfo);
         Object.assign(user[0], newInfo)
     }
 
     function handleChange(event){
         const value = event.target.value;
         const name = event.target.name;
-        console.log(value, name);
+        // console.log(value, name);
         setup()
         if(name === "currency"){
             user[0].currency = value
@@ -94,7 +93,7 @@ function Profile() {
         }
     }
     async function updateAll(){
-        console.log("ALL INFO: ", username, email, picture, phone, currency, time, language);
+        // console.log("ALL INFO: ", username, email, picture, phone, currency, time, language);
         const formData = new FormData();
         formData.append('username', username);
         formData.append('email', email);
@@ -127,14 +126,16 @@ function Profile() {
     if(user){
         for (let number = 0; number < 3; number++) {
             items.push(
-                <Form.Label>
+                <>
+                <Form.Label key={Math.random()}>
                     {'Your ' +title[number]}
-                    <Button variant="link" onClick={toggleDisplay}><FontAwesomeIcon icon={faPen} />Edit</Button><br />
+                    <Button variant="link" onClick={toggleDisplay} key={Math.random()}><FontAwesomeIcon icon={faPen} />Edit</Button><br />
                     {user[0][title[number]]}
                 </Form.Label>
+                <br />
+                <br />
+                </>
             );
-            items.push(<br />)
-            items.push(<br />)
         }
     }
     
@@ -160,11 +161,11 @@ function Profile() {
         setEmail(emailID)
         setup()
         console.log(newItem.image);
-        console.log("inside createItem");
+        // console.log("inside createItem");
     }
     
     if(user){
-        console.log("user[0].picture",user[0].picture);
+        // console.log("user[0].picture",user[0].picture);
         const Oldpicture = user[0].picture ? <Picture createItem={createItem} old={user[0].picture}/> : <Picture createItem={createItem} />
         localStorage.setItem('authUser', user[0].username);
         return (
@@ -179,7 +180,7 @@ function Profile() {
                 </Form.Group>
             </Col>
             <Col sm={2}>
-                <Form.Group controlId="exampleForm.ControlSelect1">
+                <Form.Group controlId="exampleForm.ControlSelect1" key="currency">
                     <label htmlFor="currency">Your default currency</label>
                     <select
                         name="currency"
@@ -190,7 +191,7 @@ function Profile() {
                         {currencies}
                     </select>
                 </Form.Group>
-                <Form.Group controlId="exampleForm.ControlSelect1">
+                <Form.Group controlId="exampleForm.ControlSelect2" key="time">
                     <label htmlFor="time">Your time zone</label>
                     <select
                         name="time"
@@ -201,7 +202,7 @@ function Profile() {
                         {times}
                     </select>
                 </Form.Group>
-                <Form.Group controlId="exampleForm.ControlSelect1">
+                <Form.Group controlId="exampleForm.ControlSelect3" key="language">
                     <label htmlFor="language">Language</label>
                     <select
                         name="language"
@@ -218,13 +219,13 @@ function Profile() {
 
         <Application.Base display = {display}>
             <Application.Close toggleDisplay={toggleDisplay}><FontAwesomeIcon icon={faTimes} /></Application.Close>
-            <Form>
+            <Form key="form">
                 <Form.Group controlId="username">
                     <Form.Label>Username</Form.Label>
                     <Form.Control type="text" value={username} onChange={({ target }) => setUsername(target.value)}/>
                 </Form.Group>
 
-                <Form.Group controlId="formGridEmail">
+                <Form.Group controlId="email">
                     <Form.Label>Email</Form.Label>
                     <Form.Control type="email" value={email} onChange={({ target }) => setEmail(target.value)}/>
                 </Form.Group>

@@ -36,7 +36,7 @@ function Activity() {
         }catch(e){
             console.log(e);
         }
-    },[])
+    })
 
     if(posts){
         posts.map((item, index) => {

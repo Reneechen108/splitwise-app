@@ -74,16 +74,6 @@ function Dashboard() {
         }
     },[])
 
-    const popover = (
-        <Popover id="popover-basic">
-            <Popover.Title as="h3">Popover right</Popover.Title>
-            <Popover.Content>
-            And here's some <strong>amazing</strong> content. It's very engaging.
-            right?
-            </Popover.Content>
-        </Popover>
-    );
-
     const createItem= async(newItem) => {
         console.log("this is newItem", newItem.ID);
         console.log("this is recent", newItem.recent);
@@ -137,7 +127,7 @@ function Dashboard() {
             let num = Math.floor(Math.random() * 200)
             threeGroup.push(
                 <>
-                <div key={num}>
+                <div key={Math.random()}>
                     <img src={userName[0].picture} alt="" style={{width:"30px", height: "30px"}}/>    
                     {userName[0].username} owes you {eachOwed} for "{userInfo[i].description}"
                 </div>
@@ -156,7 +146,7 @@ function Dashboard() {
             let num = Math.floor(Math.random() * 200) 
             twoGroup.push(
                 <>
-                <div key={num}>
+                <div key={Math.random()}>
                     <img src={userName[0].picture} alt="" style={{width:"30px", height: "30px"}}/>    
                     You owe {userOwedName[0].username} {userOwe[i].amount} for "{userOwe[i].description}"
                 </div>
@@ -173,13 +163,13 @@ function Dashboard() {
         }
         totalOwed.push(
             <>
-                <Pagination.Item key={title[0]} style={{width: "250px"}}>
+                <Pagination.Item key={Math.random()} style={{width: "250px"}}>
                     {title[0]}<br />{Number(three-two).toFixed(2)}
                 </Pagination.Item>
-                <Pagination.Item key={title[1]} style={{width: "250px"}}>
+                <Pagination.Item key={Math.random()} style={{width: "250px"}}>
                     {title[1]}<br />{Number(two).toFixed(2)}
                 </Pagination.Item>
-                <Pagination.Item key={title[2]} style={{width: "250px"}}>
+                <Pagination.Item key={Math.random()} style={{width: "250px"}}>
                     {title[2]}<br />{three}
                 </Pagination.Item>
             </>
@@ -187,7 +177,7 @@ function Dashboard() {
     }
 
     console.log("expense",expense);
-    let dashContent = expense ? <Expenses expense={expense}/> : <Activity />
+    let dashContent = expense ? <Expenses expense={expense} key={Math.random()}/> : <Activity />
 
     let content = display==="display" ? <>
         <Col sm={9} style={{display:display}}>
@@ -209,21 +199,14 @@ function Dashboard() {
                 </Jumbotron>
             </Row>
             <Row style={{margin: "0 auto"}} className="justify-content-md-center">
-                <h3>You owe</h3>
-                <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
-                <Button variant="secondary" className="ml-3">Click me to see</Button>
-                </OverlayTrigger>
-                <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
-                    <Button variant="secondary" className="ml-3">Click me to see</Button>
-                </OverlayTrigger>{' '}
-                    <h3>You are owed</h3>
+                <h3 style={{width: "300px"}}>You owe</h3>
+                <h3>You are owed</h3>
             </Row>
             <Row className="justify-content-md-center" style={{height: "100%"}}>
                 <Col style={{borderRight: "1px solid black", padding: 0}}>
                     {groupInfoTwo}
                 </Col>
                 <Col className="ml-3">
-                    <p></p>
                     {groupInfoThree}
                 </Col>
             </Row>

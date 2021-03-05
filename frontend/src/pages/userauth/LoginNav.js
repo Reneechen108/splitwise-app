@@ -11,15 +11,18 @@ class LoginNav extends Component {
     }
 
     static propTypes = {
-        atuh: PropTypes.object.isRequired,
+        auth: PropTypes.object.isRequired,
         logout: PropTypes.func.isRequired
     }
 
     logout = (e) => {
         e.preventDefault()
         this.props.logout()
-        window.location.replace("/home");
-        
+        // window.location.replace("/home");
+    }
+
+    profile = (e) => {
+        window.location.replace("/profile");
     }
 
     render() {
@@ -43,7 +46,7 @@ class LoginNav extends Component {
                 <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                 </Nav.Item>
                 <NavDropdown title={this.props.auth.user.username} id="nav-dropdown">
-                    <NavDropdown.Item eventKey="4.1"><Link to='/profile' >Profile</Link></NavDropdown.Item>
+                    <NavDropdown.Item eventKey="4.1" onClick={this.profile}>Profile</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item eventKey="4.4" onClick={this.logout}>Logout</NavDropdown.Item>
                 </NavDropdown>
