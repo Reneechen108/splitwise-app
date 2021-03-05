@@ -101,3 +101,4 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {userSignupRequest})(SignupForm)
+
