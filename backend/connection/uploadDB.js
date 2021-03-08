@@ -6,8 +6,20 @@ const uploadFiles = async (req, res) => {
         console.log("req.body!!!!", req.body);
         sql = '';
         if(req.body.upload === 'group'){
+            if(req.body.update==='update'){
+                db.query(`UPDATE TEAM SET name = '${req.body.name}' WHERE G_ID='${req.body.id}'`, (err) => {
+                    if(err) {
+                        console.log(err);
+                        res.json({
+                            success: false,
+                            msg: ''
+                        })
+                        return;
+                    }
+                })
+            }
             file_path =  'http://localhost:9000/group_pic/';
-            sql = 'SELECT COUNT(name) AS ID FROM team';
+            sql = 'SELECT max(G_ID) as ID FROM Team';
             db.query(sql, (err, data) => {
                 console.log(data);
                 if(data[0].ID == null)
@@ -33,38 +45,48 @@ const uploadFiles = async (req, res) => {
                         return;
                     }else{
                         console.log("running insert");
-                        let size = 0
-                        db.query("SELECT name FROM TEAM GROUP BY name", (err, data) => {
-                            if(err) {
-                                console.log(err);
-                                return;
-                            }
-                            console.log("this is data: ", data.length);
-                            size = data.length + 1
-                            let invitation;
-                        let users = fdata.users.split(',')
-                        console.log("fdata.users", users);
-                        for(let i = 0; i < users.length; i++){
-                            if(i!=users.length-1)
-                                invitation=false
-                            else
-                                invitation=true
-                            let cols = [size,fdata.name, users[i], picture_path, invitation]
-                            let pending = true
-                            console.log("line",i, size,fdata.name, users[i], picture_path, invitation, pending);
-                            let sql2 = "INSERT INTO TEAM (G_ID, name, member, picture,invitation) VALUES (?,?,?,?,?,?)";
-                            db.query(sql2, cols, (err) => {
+                        console.log("!!!!!!", req.body);
+                        if(req.body.update==="update"){
+                            db.query(`UPDATE ACCOUNT SET name="${req.body.name} WHERE G_ID="${req.body.id}"`, (err, data) => {
                                 if(err) {
                                     console.log(err);
-                                    res.json({
-                                        success: success,
-                                        msg: ''
-                                    })
                                     return;
                                 }
                             })
+                        }else{
+                            let size = 0
+                            db.query("SELECT name FROM TEAM GROUP BY name", (err, data) => {
+                                if(err) {
+                                    console.log(err);
+                                    return;
+                                }
+                            console.log("this is data: ", data.length);
+                            size = data.length + 1
+                            let invitation;
+                            let users = fdata.users.split(',')
+                            console.log("fdata.users", users);
+                            for(let i = 0; i < users.length; i++){
+                                if(i!=users.length-1)
+                                    invitation=false
+                                else
+                                    invitation=true
+                                    let rejection = false
+                                    let cols = [size,fdata.name, users[i], picture_path, invitation, rejection]
+                                    console.log("line",i, size,fdata.name, users[i], picture_path, invitation, rejection);
+                                    let sql2 = "INSERT INTO TEAM (G_ID, name, member, picture,invitation,rejection) VALUES (?,?,?,?,?,?)";
+                                    db.query(sql2, cols, (err) => {
+                                        if(err) {
+                                            console.log(err);
+                                            res.json({
+                                                success: success,
+                                                msg: ''
+                                            })
+                                            return;
+                                        }
+                                    })
+                                }
+                            })
                         }
-                        })
                         res.json({
                             success: true
                         });

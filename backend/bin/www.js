@@ -65,6 +65,12 @@ app.post("/searchUser", function(req, res) {
   temp.allUser(db, req, res);
 });
 
+app.get("/searchUser", function(req, res) {
+  // console.log("Req Body : ", req.body);
+  var temp = new getUser();
+  temp.allUser(db, req, res);
+});
+
 app.post("/getGroup", function(req, res) {
   // console.log("Req Body : ", req.body);
   var temp = new getGroup();

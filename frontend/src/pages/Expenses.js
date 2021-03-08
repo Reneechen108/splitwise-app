@@ -11,6 +11,7 @@ import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Application } from '../components/export';
 import Picture from '../components/Picture'
+import axios from 'axios';
 
 function Expenses(props) {
     const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -23,24 +24,35 @@ function Expenses(props) {
 
     const {activities} = useContext(ActivityContext)
     const {groups} = useContext(GroupContext)
+    
     const leave_URL = `${DB}/reject`
+    const update_URL= `${DB}/update`
     
     let pic = `${DB_PIC}/${props.id}/profile.png`
     let expenseList = [];
     
     if(activities && groups){
-        let activity = activities.filter(a=> a.G_ID === props.id)
-        activity.map((item, index) => {
-            expenseList.push(<ActivityInput value={item} key={index} />)
-        });
+        if(props.no){
+            expenseList.push(<div>{props.no}</div>)
+        }else{
+            let activity = activities.filter(a=> a.G_ID === props.id)
+            activity.map((item, index) => {
+                expenseList.push(<ActivityInput value={item} key={index} />)
+            });
+        }
     }
 
     expenseList.sort((a, b) => (a.props.value.date > b.props.value.date) ? -1 : 1)
     
+    function refreshPage() {
+        window.location.reload(false);
+    }
+
     function leave(){
-        let allExpense = props.expense.filter(p => (p.user===localStorage.getItem('authID') && p.role !== 1 && p.amount !== 0))
-        if(allExpense.length > 0){
-            alert("You should pay off all the expenses before you leave the group!")
+        let activity = activities.filter(a=> a.G_ID === props.id)
+
+        if(activity.length > 0){
+            alert("You should pay off all/get pack all the expenses before you leave the group!")
         }else{
             fetch(leave_URL, {
                 method: 'post',
@@ -49,7 +61,7 @@ function Expenses(props) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    id: parseInt(props.expense[0].G_ID),
+                    name: props.name,
                     member: localStorage.getItem('authID')
                 })
             }).then(res => res.json()).then(result=>{
@@ -70,6 +82,27 @@ function Expenses(props) {
         console.log("inside createItem");
     }
 
+    async function update(){
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('id', props.id);
+        formData.append('update', 'update');
+        formData.append('upload','group');
+        formData.append('picture', picture);
+        axios({
+            method: "POST",
+            url: update_URL,
+            data: formData,
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        }).then(response => {
+            console.log("response", response);
+            setTimeout(refreshPage, 1000);
+        });
+    }
+
+    console.log("props name", props.name);
     return (
         <>
         <Col sm={6}>
@@ -77,7 +110,7 @@ function Expenses(props) {
                     <Container>
                         <Row>   
                             <Image src={pic} style={{width: "50px",height: "50px"}} />
-                            <h3>{name} Expenses</h3>
+                            <h3>{props.name} Expenses</h3>
                             <SingleExpense />
                             <Button variant="secondary" className="ml-3" onClick={leave}>
                                 Leave Group
@@ -112,7 +145,7 @@ function Expenses(props) {
                 </Col>
             </Row>
             <Row className="justify-content-md-center">
-                <Button variant="danger" >Save</Button>
+                <Button variant="danger" onClick={update}>Save</Button>
             </Row>
         </Application.Group>  
         </>

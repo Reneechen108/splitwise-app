@@ -28,8 +28,7 @@ class getUserRouter{
 
     allUser(db, req, res) {
         console.log("!!!!!!!searchUser");
-        let cols = [req.body.email];
-        db.query('SELECT * FROM ACCOUNT', cols, (err, data, fields) => {
+        db.query('SELECT * FROM ACCOUNT', (err, data, fields) => {
             if(err) {
                 console.log(err);
                 res.json({

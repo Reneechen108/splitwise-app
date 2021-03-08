@@ -112,8 +112,6 @@ function Profile() {
                 "Content-Type": "multipart/form-data"
             }
         });
-        // history.push('/home')
-        // refreshPage();
         setTimeout(refreshPage, 1000);
     }
         

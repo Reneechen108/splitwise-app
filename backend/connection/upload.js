@@ -1,6 +1,7 @@
 const multer = require("multer");
 const db = require('../connection/db');
 var fs = require('fs');
+const e = require("express");
 
 const imageFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image")) {
@@ -18,9 +19,12 @@ var storage = multer.diskStorage({
         console.log("!req.body!", req.body);
         
         if(req.body.upload === 'group'){
+            if(req.body.update === 'update'){
+                sql = `SELECT G_ID AS ID FROM team WHERE G_ID='${req.body.id}'`;
+            }else{
+                sql = 'SELECT max(G_ID) as ID FROM Team';
+            }
             f_path =  'public/group/';
-            sql = 'SELECT COUNT(name) AS ID FROM team';
-            console.log("here");
         } else{
             f_path =  'public/user/';
             sql = `SELECT ID FROM ACCOUNT WHERE email = '${req.body.email}'`;
@@ -36,7 +40,12 @@ var storage = multer.diskStorage({
                 cb(null, pic_path);
                 }
             else{
-                pic_path = f_path + (data[0].ID) + '/';
+                let dataLine;
+                if(req.body.upload === 'group' && req.body.update !== 'update')
+                    dataLine = data[0].ID + 1
+                else
+                    dataLine = data[0].ID
+                pic_path = f_path + dataLine + '/';
                 // f_num = data[0].ID+1;
                 !fs.existsSync(pic_path) && fs.mkdirSync(pic_path);
                 cb(null, pic_path);

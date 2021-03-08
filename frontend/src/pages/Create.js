@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useContext} from 'react'
 import { Button, Form, Col, Row, InputGroup, FormControl } from 'react-bootstrap';
 import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,9 +18,9 @@ function Create(props) {
     const [input, setInput] = useState()
 
     const create_URL = `${DB}/update`
-
     let items = []
     let userList = []
+
     const handleSearch = (newItem) => {
         console.log("newItem", newItem);
         userList.push(newItem)
@@ -75,11 +75,8 @@ function Create(props) {
                 "Content-Type": "multipart/form-data"
             }
         }).then(response => {
-            // console.log("this is response:", response);
             if(!response.data.success)
                 alert(response.data.msg)
-            // else
-            //     setTimeout(refreshPage, 1000);
         });
     }
 

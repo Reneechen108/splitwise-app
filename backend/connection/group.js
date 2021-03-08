@@ -78,7 +78,7 @@ class getGroupRouter{
 
     reject(db, req, res) {
         console.log("!!!!!inside reject");
-        db.query(`UPDATE TEAM SET rejection=true WHERE G_ID="${req.body.id}" AND member=${req.body.member}`, (err, data, fields) => {
+        db.query(`UPDATE TEAM SET rejection=true WHERE member="${req.body.user}" AND name='${req.body.name}'`, (err, data, fields) => {
             if(err) {
                 console.log(err);
                 res.json({
@@ -111,30 +111,6 @@ class getGroupRouter{
             })
             return;
         })
-        // db.query(`SELECT * FROM EXPENSES JOIN ACCOUNT ON EXPENSES.user=ACCOUNT.ID WHERE user!='${req.body.name}' AND role!=1`, (err, data1) => {
-        //     if(err) {
-        //         console.log(err);
-        //         res.json({
-        //             success: false,
-        //             msg: ''
-        //         })
-        //         return;
-        //     }
-        //     db.query(`SELECT * FROM EXPENSES JOIN ACCOUNT ON EXPENSES.user=ACCOUNT.ID where user='${req.body.name}' and role=1;`, (err, data2) => {
-        //         if(err) {
-        //             console.log(err);
-        //             res.json({
-        //                 success: false,
-        //                 msg: ''
-        //             })
-        //             return;
-        //         }
-        //         res.json({
-        //             posts: data2,
-        //             owns: data1
-        //         });
-        //     });
-        // });
     }
 }
 module.exports = getGroupRouter;

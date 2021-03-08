@@ -2,7 +2,8 @@ import { Row, Image, Form, Col } from 'react-bootstrap';
 import logo from '../images/signup.png'
 import {DB} from '../constants/DB'
 import axios from 'axios';
-
+// import {UserContext} from '../contexts/userContext'
+//     const {user} = useContext(UserContext)
 const React = require('react')
 
 class CreateInput extends React.Component {

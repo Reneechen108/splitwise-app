@@ -18,8 +18,8 @@ function Dashboard() {
     const {user} = useContext(UserContext);
     const {groups} = useContext(GroupContext);
     const [name,setName] = useState()
-    const [one,setOne] = useState(0)
-    const [two,setTwo] = useState(0)
+    const [recentActivity,setRecentActivity] = useState()
+    const [picID,setPicID] = useState()
     const [three,setThree] = useState(0)
     const [display,setDisplay] = useState("display")
 
@@ -62,11 +62,20 @@ function Dashboard() {
     },[])
 
     const createItem= async(newItem) => {
-        let expense = activities.filter(a => a.G_ID === newItem.ID)
-        console.log("expense!!!", expense);
-        setExpense(expense)
+        console.log("!!!!!newItem", newItem);
+        if(newItem.recent==="recent"){
+            setRecentActivity(true)
+        }else{
+            let expense = activities.filter(a => a.G_ID === newItem.ID)
+            console.log("expense!!!", expense);
+            setExpense(expense)
+            setName(newItem.name)
+            // console.log("group name", newItem.name);
+            setPicID(newItem.ID)
+            setRecentActivity(false)
+        }
         setDisplay("none")
-        setName(newItem.name)
+        // console.log("group name", name);
     }
 
     function settleUp(){
@@ -136,9 +145,9 @@ function Dashboard() {
         )
     }
 
-    // console.log("expense",expense);
-    console.log("createItem",createItem.newItem);
-    let dashContent = expense && expense.length>0 ? <Expenses id={expense[0].G_ID} name={name} key={Math.random()}/> : <Activity />
+    console.log("expense",expense);
+    
+    let dashContent = recentActivity ? <Activity /> : (expense && expense.length>0 ? <Expenses id={expense[0].G_ID} name={name} key={Math.random()}/> : <Expenses no={"There is no activity"} id={picID} name={name} key={Math.random()}/> )
 
     let content = display==="display" ? <>
         <Col sm={9} style={{display:display}}>

@@ -31,11 +31,6 @@ function UserProvider({children}) {
             }).then(res => res.json()).then(result=>{
                 setUser(result.dataset)
                 console.log("this is a user context", result.dataset);
-                // if(user){
-                //     setUsername(user[0].username)
-                //     setEmail(user[0].email)
-                //     setPhone(user[0].phone)
-                // }
             })
         }catch(e){
             console.log(e);

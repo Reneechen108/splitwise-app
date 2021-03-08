@@ -57,7 +57,7 @@ class DashNav extends React.Component {
             name: currentGroup[0].name,
             recent: ''
         });
-        console.log("inside getGroup", currentGroup[0].id,);
+        console.log("inside getGroup", currentGroup[0].id);
     }   
 
     handleAccept(e){
