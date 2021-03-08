@@ -7,6 +7,8 @@ import {UserContext} from '../contexts/userContext'
 import {GroupContext} from '../contexts/groupContext'
 import Activity from '../pages/Activity'
 import axios from 'axios'
+import {ActivityContext} from '../contexts/activityContext'
+
 function Dashboard() {
     let title = ["total balance", "you owe", "you are owed"]
     const [group, setGroup] = useState()
@@ -15,11 +17,13 @@ function Dashboard() {
     const [userOwe, setUserOwe] = useState()
     const {user} = useContext(UserContext);
     const {groups} = useContext(GroupContext);
-    const [displayWin,setDisplayWin] = useState("none")
+    const [name,setName] = useState()
     const [one,setOne] = useState(0)
     const [two,setTwo] = useState(0)
     const [three,setThree] = useState(0)
     const [display,setDisplay] = useState("display")
+
+    const {activities} = useContext(ActivityContext)
 
     function toggleDisplay(){
         if(display === "none")
@@ -58,28 +62,11 @@ function Dashboard() {
     },[])
 
     const createItem= async(newItem) => {
-        console.log("this is newItem", newItem.ID);
-        console.log("this is recent", newItem.recent);
+        let expense = activities.filter(a => a.G_ID === newItem.ID)
+        console.log("expense!!!", expense);
+        setExpense(expense)
         setDisplay("none")
-        if(newItem.ID){
-            const getExpense_URL = `${DB}/expense/${newItem.ID}`
-            await fetch(getExpense_URL, {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    ID: newItem.ID
-                })
-            }).then(res => res.json()).then(result=>{
-                // console.log("result.dataset", result.dataset);
-                setExpense(result.dataset)
-            })
-        }
-        if(newItem.recent){
-            setExpense('')
-        }
+        setName(newItem.name)
     }
 
     function settleUp(){
@@ -149,8 +136,9 @@ function Dashboard() {
         )
     }
 
-    console.log("expense",expense);
-    let dashContent = expense ? <Expenses expense={expense} key={Math.random()}/> : <Activity />
+    // console.log("expense",expense);
+    console.log("createItem",createItem.newItem);
+    let dashContent = expense && expense.length>0 ? <Expenses id={expense[0].G_ID} name={name} key={Math.random()}/> : <Activity />
 
     let content = display==="display" ? <>
         <Col sm={9} style={{display:display}}>

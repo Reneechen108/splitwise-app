@@ -34,10 +34,12 @@ function ExpenseInput(props) {
             console.log("all activity", activities)
             let filterData = activities.filter(a => a.E_ID === props.value.E_ID)
             console.log("filterData", filterData);
-            month = monthNames[parseInt(filterData[0].date.substring(5, 7))-1].substring(0,3)
-            data = filterData[0].date.substring(8, 10)
-            userInfo = <h6 style={{color: "red"}}>{u1[0].username} Paid</h6>
-            paid = <h4 style={{color: "red"}}>USD${filterData[0].action}</h4>
+            if(filterData.length > 0){
+                month = monthNames[parseInt(filterData[0].date.substring(5, 7))-1].substring(0,3)
+                data = filterData[0].date.substring(8, 10)
+                userInfo = <h6 style={{color: "red"}}>{u1[0].username} Paid</h6>
+                paid = <h4 style={{color: "red"}}>USD${filterData[0].action}</h4>
+            }
         }
         desc = props.value.description
         currentUser = u1[0] ? 

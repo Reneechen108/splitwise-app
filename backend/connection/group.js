@@ -47,6 +47,7 @@ class getGroupRouter{
                 })
                 return;
             }
+            console.log("this is data!!!!!!", data);
             res.json({
                 success: true,
                 dataset: data

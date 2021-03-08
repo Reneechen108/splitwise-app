@@ -54,6 +54,7 @@ class DashNav extends React.Component {
         this.props.createItem({
             ID: currentGroup[0].id,
             allGroup: this.state.allGroups,
+            name: currentGroup[0].name,
             recent: ''
         });
         console.log("inside getGroup", currentGroup[0].id,);

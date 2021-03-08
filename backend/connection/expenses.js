@@ -13,18 +13,6 @@ class expensesRouter{
                 return;
             }
             // console.log("!!!!!!!!!!", data);
-            console.log("!!!!!here!!!!");
-            let cols2 = [data[0].G_ID, fdata.host, fdata.date, fdata.description, 'create']
-            db.query("INSERT INTO ACTIVITY (G_ID, host, date, description, action) VALUES (?,?,?,?,?)", cols2, (err) => {
-                if(err) {
-                    console.log(err);
-                    res.json({
-                        success: false,
-                        msg: ''
-                    })
-                    return;
-                }
-            })
             let inside = data.filter(d => d.member !== fdata.host && d.invitation===1)
             console.log("here", inside);
             let amount = Number((fdata.expense/(inside.length+1)).toFixed(2));
@@ -38,6 +26,17 @@ class expensesRouter{
                 cols = [data[i].G_ID, fdata.description, fdata.expense, fdata.date, inside[i].member, amount, role]
                 sql1 = "INSERT INTO EXPENSES (G_ID, description, expense, date, user, amount, role) VALUES (?,?,?,?,?,?,?)";
                 db.query(sql1, cols, (err) => {
+                    if(err) {
+                        console.log(err);
+                        res.json({
+                            success: false,
+                            msg: ''
+                        })
+                        return;
+                    }
+                })
+                let cols2 = [data[i].G_ID, fdata.description, fdata.host, inside[i].member, amount, fdata.date, 'create']
+                db.query("INSERT INTO ACTIVITY (G_ID, description, host, user, amount, date, action) VALUES (?,?,?,?,?,?,?)", cols2, (err) => {
                     if(err) {
                         console.log(err);
                         res.json({

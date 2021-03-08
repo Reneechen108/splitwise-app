@@ -1,52 +1,24 @@
 import React, {useState,useContext,useEffect}from 'react'
 import { Button, Col, Row, Image, Jumbotron, Container } from 'react-bootstrap';
-import DashNav from '../pages/Dashboard/dashNav'
 import ActivityInput from '../components/ActivityInput'
-import {DB} from '../constants/DB'
-// import ExpenseInput from '../components/ExpenseInput'
+import {ActivityContext} from '../contexts/activityContext'
+
 function Activity() {
 
     const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
     ];
-    const recent_URL= `${DB}/recent`
-    const [activity, setActivity] = useState()
-    const [owns, setOwns] = useState()
-    // const [expenses, setExpenses] = useState()
-
+    
     let expenseList = [];
+    const {activities} = useContext(ActivityContext)
 
-    useEffect( ()=>{
-        try{
-            fetch(recent_URL, {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: localStorage.getItem("authID")
-                })
-            }).then(res => res.json()).then(result=>{
-                setActivity(result.dataset)
-                console.log(result);    
-            })
-        }catch(e){
-            console.log(e);
-        }
-    },[])
-
-    if(activity){
-        activity.map((item, index) => {
+    if(activities){
+        activities.map((item, index) => {
             expenseList.push(<ActivityInput value={item} key={index} />)
         });
     }
-    // if(owns){
-    //     owns.map((item, index) => {
-    //         expenseList.push(<ActivityInput value={item} key={index+50} />)
-    //     });
-    // }
 
+    console.log("expenseList", expenseList);
     expenseList.sort((a, b) => (a.props.value.date > b.props.value.date) ? -1 : 1)
 
     return (

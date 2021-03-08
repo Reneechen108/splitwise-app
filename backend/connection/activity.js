@@ -34,8 +34,7 @@ class getActivityRouter{
 
     allActivity(db, req, res) {
         console.log("inside allActivity", req.body);
-        db.query(`SELECT * FROM ACTIVITY where G_ID in 
-        (SELECT G_ID FROM ACTIVITY WHERE host='${req.body.ID}')`, (err, data, fields) => {
+        db.query(`SELECT ay.*,ac2.username as hostname, ac1.username as username,ac2.picture as hostpic,ac1.picture as userpic FROM ACTIVITY as ay JOIN ACCOUNT as ac1 on ay.user=ac1.ID JOIN ACCOUNT as ac2 on ay.host=ac2.ID where G_ID in (SELECT G_ID FROM ACTIVITY WHERE host='${req.body.ID}' OR user='${req.body.ID}')`, (err, data, fields) => {
             if(err) {
                 console.log(err);
                 res.json({

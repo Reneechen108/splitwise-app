@@ -29,25 +29,7 @@ function GroupProvider({children}) {
             console.log(e);
         }
     },[])
-
-
-    // function handleUpdate() {
-    //     fetch(update_URL, {
-    //         method: 'post',
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             username: username,
-    //             email: email,
-    //             phone: phone,
-    //             emailID: emailID
-    //         })
-    //     }).then(res => res.json()).then(result=>{
-    //         setUser(result.dataset)
-    //     })
-    // }
+    
     return (
         <>
         <GroupContext.Provider  value={{

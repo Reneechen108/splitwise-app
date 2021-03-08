@@ -18,7 +18,7 @@ class LoginNav extends Component {
     logout = (e) => {
         e.preventDefault()
         this.props.logout()
-        // window.location.replace("/home");
+        window.location.replace("/home");
     }
 
     profile = (e) => {
