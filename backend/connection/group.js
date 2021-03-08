@@ -96,34 +96,44 @@ class getGroupRouter{
     }
 
     recent(db, req, res) {
-        console.log("i am here");
-        let activities
-        let groups
-        let expenses
-        db.query(`SELECT * FROM EXPENSES JOIN ACCOUNT ON EXPENSES.user=ACCOUNT.ID WHERE user!='${req.body.name}' AND role!=1`, (err, data1) => {
+        db.query(`SELECT * FROM ACTIVITY ORDER BY date DESC`, (err, data, fields) => {
             if(err) {
-                console.log(err);
-                res.json({
+                res.status(401).json({
                     success: false,
-                    msg: ''
+                    error: err
                 })
                 return;
-            }
-            db.query(`SELECT * FROM EXPENSES JOIN ACCOUNT ON EXPENSES.user=ACCOUNT.ID where user='${req.body.name}' and role=1;`, (err, data2) => {
-                if(err) {
-                    console.log(err);
-                    res.json({
-                        success: false,
-                        msg: ''
-                    })
-                    return;
-                }
-                res.json({
-                    posts: data2,
-                    owns: data1
-                });
-            });
-        });
+            }            
+            res.status(200).json({
+                success: true,
+                dataset: data
+            })
+            return;
+        })
+        // db.query(`SELECT * FROM EXPENSES JOIN ACCOUNT ON EXPENSES.user=ACCOUNT.ID WHERE user!='${req.body.name}' AND role!=1`, (err, data1) => {
+        //     if(err) {
+        //         console.log(err);
+        //         res.json({
+        //             success: false,
+        //             msg: ''
+        //         })
+        //         return;
+        //     }
+        //     db.query(`SELECT * FROM EXPENSES JOIN ACCOUNT ON EXPENSES.user=ACCOUNT.ID where user='${req.body.name}' and role=1;`, (err, data2) => {
+        //         if(err) {
+        //             console.log(err);
+        //             res.json({
+        //                 success: false,
+        //                 msg: ''
+        //             })
+        //             return;
+        //         }
+        //         res.json({
+        //             posts: data2,
+        //             owns: data1
+        //         });
+        //     });
+        // });
     }
 }
 module.exports = getGroupRouter;

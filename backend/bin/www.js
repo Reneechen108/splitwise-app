@@ -29,14 +29,14 @@ app.get("/", (req, res) => {
 });
 
 app.post("/signup", function(req, res) {
-  console.log("Req Body updated : ", req.body, res.body);
+  // console.log("Req Body updated : ", req.body, res.body);
   var temp = new signup();
   temp.register(db, req, res);
 });
 
 
 app.post("/signin", function(req, res) {
-  console.log("Req Body : ", req.body);
+  // console.log("Req Body : ", req.body);
   var temp = new signin();
   temp.login(db, req, res);
 });
@@ -77,11 +77,11 @@ app.post("/allGroup", function(req, res) {
   temp.allGroup(db, req, res);
 });
 
-// app.post("/leaveGroup", function(req, res) {
-//   // console.log("Req Body : ", req.body);
-//   var temp = new getGroup();
-//   temp.leaveGroup(db, req, res);
-// });
+app.post("/leaveGroup", function(req, res) {
+  // console.log("Req Body : ", req.body);
+  var temp = new getGroup();
+  temp.leaveGroup(db, req, res);
+});
 
 app.post("/addExpenses", function(req, res) {
   // console.log("Req Body : ", req.body);

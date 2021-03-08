@@ -29,7 +29,13 @@ class LoginForm extends Component {
         this.setState({error: {}})
         e.preventDefault();
         this.props.login(this.state).then(
-            (res) => setTimeout(window.location.reload(false), 5000)
+            (res) => setTimeout(window.location.reload(false), 5000),
+            ({response}) => {
+                if(response.status===401)
+                    alert(response.data.errors.form)
+                    // console.log();
+                    
+            }
         )
     }
     render() {

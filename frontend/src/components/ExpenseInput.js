@@ -23,7 +23,7 @@ function ExpenseInput(props) {
     let desc
     let userInfo
     let paid
-    if(props.value && user){
+    if(props.value && user && activities.length>0){
         let u1 = user.filter(u => u.ID === parseInt(props.value.user))
         if(props.value.amount > 0){
             month = monthNames[parseInt(props.value.date.substring(5, 7))-1].substring(0,3)
@@ -31,7 +31,7 @@ function ExpenseInput(props) {
             userInfo = <h6>{u1[0].username}</h6>
             paid = <h4>USD${props.value.amount}</h4>
         }else{
-            // console.log("all activity", activities)
+            console.log("all activity", activities)
             let filterData = activities.filter(a => a.E_ID === props.value.E_ID)
             console.log("filterData", filterData);
             month = monthNames[parseInt(filterData[0].date.substring(5, 7))-1].substring(0,3)
@@ -49,7 +49,8 @@ function ExpenseInput(props) {
 
     // Object.assign(props.createItem, props.value.date)
 
-    return (
+    if(activities){
+        return (
         <>
           <Col md={1}>
             <h6>{month}</h6>
@@ -66,7 +67,8 @@ function ExpenseInput(props) {
         </Col>
         <p style={{border: "1px solid black", width: "100%"}}></p>
         </>
-    )
+        )
+    }
 }
 
 export default ExpenseInput

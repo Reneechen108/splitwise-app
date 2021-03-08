@@ -19,7 +19,7 @@ function ActivityProvider({children}) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    name: localStorage.getItem("authID")
+                    ID: localStorage.getItem("authID")
                 })
             }).then(res => res.json()).then(result=>{
                 setActivities(result.dataset)

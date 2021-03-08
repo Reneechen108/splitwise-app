@@ -14,8 +14,7 @@ function App() {
       <GroupProvider>
         <UserProvider>
           <Header />
-          <Routers />
-          <Footer />
+          <Routers/>
         </UserProvider>
       </GroupProvider>
     </ActivityProvider>

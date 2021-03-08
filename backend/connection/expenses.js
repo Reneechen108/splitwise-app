@@ -12,7 +12,19 @@ class expensesRouter{
                 })
                 return;
             }
-            console.log("!!!!!!!!!!", data);
+            // console.log("!!!!!!!!!!", data);
+            console.log("!!!!!here!!!!");
+            let cols2 = [data[0].G_ID, fdata.host, fdata.date, fdata.description, 'create']
+            db.query("INSERT INTO ACTIVITY (G_ID, host, date, description, action) VALUES (?,?,?,?,?)", cols2, (err) => {
+                if(err) {
+                    console.log(err);
+                    res.json({
+                        success: false,
+                        msg: ''
+                    })
+                    return;
+                }
+            })
             let inside = data.filter(d => d.member !== fdata.host && d.invitation===1)
             console.log("here", inside);
             let amount = Number((fdata.expense/(inside.length+1)).toFixed(2));
@@ -86,17 +98,16 @@ class expensesRouter{
 
     getUserInfo(db, req, res) {
         console.log("req.body: ", req.body);
-        // let fdata = req.body;
-        db.query(`SELECT * FROM expenses WHERE expenses.G_ID=(SELECT G_ID FROM expenses WHERE expenses.user='${req.body.ID}' AND role = 1 LIMIT 1) AND role = 0 AND expenses.amount > 0`, (err, data, fields) => {
+        db.query(`SELECT e1.G_ID,e1.description,e2.amount,e1.user,e2.user,a.username,a.picture FROM expenses AS e1 JOIN expenses AS e2 JOIN account as a ON a.ID= e2.user WHERE e2.role!=1 AND e1.user='${req.body.ID}' AND e1.description = e2.description AND e1.amount < 0 AND e2.amount > 0`, (err, data, fields) => {
             if(err) {
-                console.log(err);
-                res.json({
+                res.status(401).json({
                     success: false,
-                    msg: ''
+                    error: err
                 })
                 return;
-            }            
-            res.json({
+            } 
+            console.log("!!!!!!!!", data);           
+            res.status(200).json({
                 success: true,
                 dataset: data
             })
@@ -105,20 +116,17 @@ class expensesRouter{
     }
 
     getUserOweInfo(db, req, res) {
-        console.log("req.body: ", req.body);
+        console.log("req.body getuserOweInfo: ", req.body);
         // let fdata = req.body;
-        db.query(`SELECT e1.G_ID,e1.description,e1.amount,e1.user,e2.user as host FROM EXPENSES AS e1 JOIN EXPENSES AS e2 WHERE e2.role=1 AND
-        e1.user='${req.body.ID}' AND e1.description = e2.description AND e1.amount > 0`, (err, data, fields) => {
+        db.query(`SELECT e1.G_ID,e1.description,e1.amount as owe,e1.user as host,e2.user,a.username,a.picture FROM EXPENSES as e1 JOIN EXPENSES  as e2 on e1.description = e2.description JOIN ACCOUNT as a ON a.ID= e2.user WHERE e1.user ='${req.body.ID}' AND e1.amount > 0 AND e2.role != 0`, (err, data, fields) => {
             if(err) {
-                console.log(err);
-                res.json({
+                res.status(401).json({
                     success: false,
-                    msg: ''
+                    error: err
                 })
                 return;
             }            
-            console.log("this is owe", data);
-            res.json({
+            res.status(200).json({
                 success: true,
                 dataset: data
             })
@@ -139,12 +147,12 @@ class expensesRouter{
                 })
                 return;
             }            
-            console.log("this is owe", data);
+            // console.log("this is owe", data);
             data.forEach(function(item){
                 console.log("this is item", item);
-                let paid = "paid"
-                let cols = [item.E_ID, item.G_ID, item.user, item.amount, req.body.date]
-                let sql1 = "INSERT INTO ACTIVITY (E_ID, G_ID, name, action, date) VALUES (?,?,?,?,?)";
+                let cols = [item.G_ID, item.E_ID, item.description, item.host, item.user, item.amount, req.body.date, 'paid']
+                console.log(cols);
+                let sql1 = "INSERT INTO ACTIVITY (G_ID, E_ID, description, host, user, amount, date, action) VALUES (?,?,?,?,?,?,?,?)";
                 db.query(sql1, cols, (err) => {
                     if(err) {
                         console.log(err);
@@ -156,6 +164,16 @@ class expensesRouter{
                     }
                 })
                 db.query(`UPDATE EXPENSES SET amount = 0 WHERE E_ID='${item.E_ID}'`, (err) => {
+                    if(err) {
+                        console.log(err);
+                        res.json({
+                            success: false,
+                            msg: ''
+                        })
+                        return;
+                    }
+                })
+                db.query(`UPDATE EXPENSES SET amount=amount+'${item.amount}' WHERE user='${item.host}' AND description='${item.description}' AND E_ID>0`, (err) => {
                     if(err) {
                         console.log(err);
                         res.json({
@@ -168,7 +186,7 @@ class expensesRouter{
             })
             return;
         })
-        db.query(`SELECT * FROM expenses WHERE expenses.G_ID=(SELECT G_ID FROM expenses WHERE expenses.user='${req.body.ID}' AND role = 1 LIMIT 1) AND role = 0 AND expenses.amount > 0`, (err, data, fields) => {
+        db.query(`SELECT e1.E_ID,e1.G_ID,e1.description,e2.amount,e1.user,e2.user,e1.user as host FROM expenses AS e1 JOIN expenses AS e2 JOIN account as a ON a.ID= e2.user WHERE e2.role!=1 AND e1.user='${req.body.ID}' AND e1.description = e2.description AND e1.amount < 0 AND e2.amount > 0`, (err, data, fields) => {
             if(err) {
                 console.log(err);
                 res.json({
@@ -177,12 +195,24 @@ class expensesRouter{
                 })
                 return;
             }            
-            console.log("this is owe", data);
+            // console.log("this is owed", data);
+
             data.forEach(function(item){
                 console.log("this is item", item);
-                let cols = [item.E_ID, item.G_ID, item.user, item.amount, req.body.date]
-                let sql1 = "INSERT INTO ACTIVITY (E_ID, G_ID, name, action, date) VALUES (?,?,?,?,?)";
+                let cols = [item.G_ID, item.E_ID, item.description, item.host, item.user, item.amount, req.body.date, 'paid']
+                console.log(cols);
+                let sql1 = "INSERT INTO ACTIVITY (G_ID, E_ID, description, host, user, amount, date, action) VALUES (?,?,?,?,?,?,?,?)";
                 db.query(sql1, cols, (err) => {
+                    if(err) {
+                        console.log(err);
+                        res.json({
+                            success: false,
+                            msg: ''
+                        })
+                        return;
+                    }
+                })
+                db.query(`UPDATE EXPENSES SET amount = 0 WHERE user='${item.user}' AND description='${item.description}'`, (err) => {
                     if(err) {
                         console.log(err);
                         res.json({
@@ -202,10 +232,6 @@ class expensesRouter{
                         return;
                     }
                 })
-                // res.json({
-                //     success: true,
-                //     dataset: data
-                // })
             })
             res.json({
                 success: true,

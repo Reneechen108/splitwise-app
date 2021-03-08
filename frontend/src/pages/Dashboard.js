@@ -6,12 +6,12 @@ import Expenses from './Expenses'
 import {UserContext} from '../contexts/userContext'
 import {GroupContext} from '../contexts/groupContext'
 import Activity from '../pages/Activity'
-
+import axios from 'axios'
 function Dashboard() {
     let title = ["total balance", "you owe", "you are owed"]
     const [group, setGroup] = useState()
     const [expense, setExpense] = useState()
-    const [userInfo, setUserInfo] = useState()
+    const [userOwed, setUserOwed] = useState()
     const [userOwe, setUserOwe] = useState()
     const {user} = useContext(UserContext);
     const {groups} = useContext(GroupContext);
@@ -32,46 +32,29 @@ function Dashboard() {
     let user_URL = `${DB}/getInfo`
     let userOwe_URL = `${DB}/getOweInfo`
     let update_URL = `${DB}/updateExpenses`
+    
 
     function refreshPage() {
         window.location.reload(false);
     }
     useEffect( ()=>{
-        try{
-            fetch(user_URL, {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    ID: localStorage.getItem('authID')
-                })
-            }).then(res => res.json()).then(result=>{
-                console.log("userInfo: ", result.dataset);
-                setUserInfo(result.dataset)
-            })
-        }catch(e){
-            console.log(e);
-        }
-        try{
-            fetch(userOwe_URL, {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    ID: localStorage.getItem('authID')
-                })
-            }).then(res => res.json()).then(result=>{
-                console.log("userInfo: ", result.dataset);
-                setUserOwe(result.dataset)
-                console.log("userOwe", userOwe);
-            })
-        }catch(e){
-            console.log(e);
-        }
+        let data = {ID: localStorage.getItem('authID')}
+        axios.post(user_URL,data)
+            .then(response => {
+                console.log(response);
+                if(response.status === 200){
+                    console.log("user owe: ", response.data.dataset);
+                    setUserOwed(response.data.dataset)
+                }
+            });  
+        axios.post(userOwe_URL,data)
+            .then(response => {
+                console.log(response);
+                if(response.status === 200){
+                    console.log("user owe: ", response.data.dataset);
+                    setUserOwe(response.data.dataset)
+                }
+            });   
     },[])
 
     const createItem= async(newItem) => {
@@ -100,11 +83,19 @@ function Dashboard() {
     }
 
     function settleUp(){
-
-        if(displayWin === "none")
-            setDisplayWin("display")
-        else
-            setDisplayWin("none")
+        console.log("click");
+        let dateWithdate = {
+            ID: localStorage.getItem('authID'),
+            date: new Date().toISOString().slice(0, 19).replace('T', ' ')
+        }
+        axios.post(update_URL,dateWithdate)
+            .then(response => {
+                console.log(response);
+                if(response.status === 200){
+                    console.log("updated!");
+                }
+                refreshPage();
+            });  
     }
 
     let groupInfoTwo = []
@@ -113,64 +104,46 @@ function Dashboard() {
     let threeGroup = []
     let totalOwed = []
 
-    if(userInfo&&user&&groups&&userOwe){
-        console.log("inside", userInfo);
+    if(userOwed&&user&&groups&&userOwe){
         let two = 0
         let three = 0
-        // let groupCost = 0
-        for(let i = 0; i < userInfo.length; i++){
-            let eachOwed = userInfo[i].amount
-            // let groupName = groups.filter(g=>g.G_ID===userInfo[i].G_ID)
-            let userName = user.filter(u=>u.ID===parseInt(userInfo[i].user))
-            let sep = (i+1 != userInfo.length && userInfo[i].description !== userInfo[i+1].description) ? 
-            <p style={{borderBottom: "1px solid black", padding: "3px"}}></p> : <p></p>  
-            let num = Math.floor(Math.random() * 200)
+        userOwed.map((item, index) => {
             threeGroup.push(
                 <>
-                <div key={Math.random()}>
-                    <img src={userName[0].picture} alt="" style={{width:"30px", height: "30px"}}/>    
-                    {userName[0].username} owes you {eachOwed} for "{userInfo[i].description}"
+                <div key={index}>
+                    <img src={item.picture} alt="" style={{width:"30px", height: "30px"}}/>    
+                    {item.username} owes you ${item.amount} for "{item.description}"
                 </div>
-                {sep}
+                <p style={{borderBottom: "1px solid black", padding: "3px"}}/>
                 </>
             )
-            three += eachOwed
-        }
-        
-        for(let i = 0; i < userOwe.length; i++){
-            let eachOwed = userOwe[i].amount
-            let userName = user.filter(u=>u.ID===parseInt(userOwe[i].user))
-            let userOwedName = user.filter(u=>u.ID===parseInt(userOwe[i].host))
-            let sep = (i+1 != userOwe.length && userOwe[i].description !== userOwe[i+1].description) ? 
-            <p style={{borderBottom: "1px solid black", padding: "3px"}}></p> : <p></p>     
-            let num = Math.floor(Math.random() * 200) 
+            three += item.amount;
+        })
+        console.log("inside", userOwe);
+        userOwe.map((item, index) => {
             twoGroup.push(
                 <>
-                <div key={Math.random()}>
-                    <img src={userName[0].picture} alt="" style={{width:"30px", height: "30px"}}/>    
-                    You owe {userOwedName[0].username} {userOwe[i].amount} for "{userOwe[i].description}"
+                <div key={index}>
+                    <img src={item.picture} alt="" style={{width:"30px", height: "30px"}}/>    
+                    You owe {item.username} ${item.owe} for "{item.description}"
                 </div>
-                {sep}
+                <p style={{borderBottom: "1px solid black", padding: "3px"}}/>
                 </>
             )
-            two += eachOwed
-        }
+            two += item.owe;
+        })
         groupInfoTwo.push(twoGroup)
         groupInfoThree.push(threeGroup);
-        if(displayWin==="none"){
-            two = 0
-            three = 0 
-        }
         totalOwed.push(
             <>
                 <Pagination.Item key={Math.random()} style={{width: "250px"}}>
-                    {title[0]}<br />{Number(three-two).toFixed(2)}
+                    {title[0]}<br />$ {Number(three-two).toFixed(2)}
                 </Pagination.Item>
                 <Pagination.Item key={Math.random()} style={{width: "250px"}}>
-                    {title[1]}<br />{Number(two).toFixed(2)}
+                    {title[1]}<br />$ {Number(two).toFixed(2)}
                 </Pagination.Item>
                 <Pagination.Item key={Math.random()} style={{width: "250px"}}>
-                    {title[2]}<br />{three}
+                    {title[2]}<br />$ {three}
                 </Pagination.Item>
             </>
         )

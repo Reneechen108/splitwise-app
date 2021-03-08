@@ -10,7 +10,7 @@ function Activity() {
     "July", "August", "September", "October", "November", "December"
     ];
     const recent_URL= `${DB}/recent`
-    const [posts, setPosts] = useState()
+    const [activity, setActivity] = useState()
     const [owns, setOwns] = useState()
     // const [expenses, setExpenses] = useState()
 
@@ -28,26 +28,24 @@ function Activity() {
                     name: localStorage.getItem("authID")
                 })
             }).then(res => res.json()).then(result=>{
-                setPosts(result.posts)
-                setOwns(result.owns)
-                console.log("this is a posts", result.posts);
-                console.log("this is a owns", result.owns);
+                setActivity(result.dataset)
+                console.log(result);    
             })
         }catch(e){
             console.log(e);
         }
-    })
+    },[])
 
-    if(posts){
-        posts.map((item, index) => {
+    if(activity){
+        activity.map((item, index) => {
             expenseList.push(<ActivityInput value={item} key={index} />)
         });
     }
-    if(owns){
-        owns.map((item, index) => {
-            expenseList.push(<ActivityInput value={item} key={index+50} />)
-        });
-    }
+    // if(owns){
+    //     owns.map((item, index) => {
+    //         expenseList.push(<ActivityInput value={item} key={index+50} />)
+    //     });
+    // }
 
     expenseList.sort((a, b) => (a.props.value.date > b.props.value.date) ? -1 : 1)
 

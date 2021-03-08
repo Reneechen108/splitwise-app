@@ -1,5 +1,6 @@
 class getActivityRouter{
 
+
     // getGroup(db, req, res) {
     //     let groupNum = []
     //     db.query(`SELECT * FROM TEAM WHERE FIND_IN_SET('${req.body.id}',member)`, (err, data, fields) => {
@@ -33,7 +34,8 @@ class getActivityRouter{
 
     allActivity(db, req, res) {
         console.log("inside allActivity", req.body);
-        db.query(`SELECT * FROM ACTIVITY WHERE name='${req.body.name}'`, (err, data, fields) => {
+        db.query(`SELECT * FROM ACTIVITY where G_ID in 
+        (SELECT G_ID FROM ACTIVITY WHERE host='${req.body.ID}')`, (err, data, fields) => {
             if(err) {
                 console.log(err);
                 res.json({
@@ -42,6 +44,7 @@ class getActivityRouter{
                 })
                 return;
             }
+            console.log("all activity", data);
             res.json({
                 success: true,
                 dataset: data

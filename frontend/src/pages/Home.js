@@ -4,7 +4,7 @@ import { faApple, faAndroid } from '@fortawesome/free-brands-svg-icons'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import img from '../images/home.png'
-
+import Footer from '../components/Footer'
 class Home extends Component {
 
     render(){
@@ -24,6 +24,7 @@ class Home extends Component {
                 <Col sm={8}><img src={img} style={{width: "100%"}}></img></Col>
             </Row>
         </Jumbotron>
+        <Footer />
         </>
     )
     }

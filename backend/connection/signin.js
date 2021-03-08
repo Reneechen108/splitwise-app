@@ -52,7 +52,7 @@ class loginRouter{
                         //     success: false,
                         //     msg: 'Invalid password'
                         // })
-                        res.status(401).json({errors: { form: "Invalid password"}})
+                        res.status(401).json({errors: { form: "Invalid password/username"}})
 
                     }
                 });

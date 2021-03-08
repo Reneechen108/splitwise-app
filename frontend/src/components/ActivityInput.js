@@ -21,7 +21,7 @@ function ActivityInput(props) {
         console.log("props.value", props.value);
         month = monthNames[parseInt(props.value.date.substring(5, 7))-1].substring(0,3)
         data = props.value.date.substring(8, 10)
-        if(props.value.role===1){
+        if(props.value.action){
             currentInfo = <h6>You get back USD ${-Number(props.value.amount).toFixed(2)}</h6>
         }else{
             currentInfo = <h6 style={{color:"red"}}>You owes USD ${Number(props.value.amount).toFixed(2)}</h6>
