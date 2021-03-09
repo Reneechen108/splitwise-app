@@ -60,8 +60,13 @@ function SingleExpense() {
             console.log(e);
         }
         handleClose();
+        setTimeout(refreshPage, 1000);
     }
-
+        
+    function refreshPage() {
+        window.location.reload(false);
+    }
+    
     let searchGroup = ''
     let newG
     

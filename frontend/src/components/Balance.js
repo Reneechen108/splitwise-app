@@ -8,7 +8,6 @@ function Balance(props) {
     const [userInfo, setUserInfo] = useState()
 
     const calculate_URL = `${DB}/calculate`
-
     useEffect( ()=>{
         try{
             fetch(calculate_URL, {

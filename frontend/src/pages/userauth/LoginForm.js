@@ -33,8 +33,8 @@ class LoginForm extends Component {
             ({response}) => {
                 if(response.status===401)
                     alert(response.data.errors.form)
-                    // console.log();
-                    
+                if(response.status===200)
+                    window.location.replace("/dashboard");
             }
         )
     }

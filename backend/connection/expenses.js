@@ -12,7 +12,7 @@ class expensesRouter{
                 })
                 return;
             }
-            // console.log("!!!!!!!!!!", data);
+            console.log("!!!!!!!!!!", data);
             let inside = data.filter(d => d.member !== fdata.host && d.invitation===1)
             console.log("here", inside);
             let amount = Number((fdata.expense/(inside.length+1)).toFixed(2));
@@ -20,52 +20,52 @@ class expensesRouter{
             // console.log("amount: ", amount);
             let sql1='';
             let cols =[];
-            for(let i = 0; i < inside.length; i++){
-                let role = false
-                console.log(data[i].G_ID, fdata.description, fdata.expense, fdata.date, inside[i].member, amount, role);
-                cols = [data[i].G_ID, fdata.description, fdata.expense, fdata.date, inside[i].member, amount, role]
-                sql1 = "INSERT INTO EXPENSES (G_ID, description, expense, date, user, amount, role) VALUES (?,?,?,?,?,?,?)";
-                db.query(sql1, cols, (err) => {
-                    if(err) {
-                        console.log(err);
-                        res.json({
-                            success: false,
-                            msg: ''
-                        })
-                        return;
-                    }
-                })
-                let cols2 = [data[i].G_ID, fdata.description, fdata.host, inside[i].member, amount, fdata.date, 'create']
-                db.query("INSERT INTO ACTIVITY (G_ID, description, host, user, amount, date, action) VALUES (?,?,?,?,?,?,?)", cols2, (err) => {
-                    if(err) {
-                        console.log(err);
-                        res.json({
-                            success: false,
-                            msg: ''
-                        })
-                        return;
-                    }
-                })
-            }
-            let outside = data.filter(d => d.member === fdata.host)
-            console.log("outside", outside);
-            console.log("this is user amount before", amount);
-            amount = 0 - amount
-            console.log("this is user amount after", amount);
-            let role = true
-            console.log(outside[0].G_ID, fdata.description, fdata.expense, fdata.date, outside[0].member, amount, role);
-            cols = [outside[0].G_ID, fdata.description, fdata.expense, fdata.date, outside[0].member, amount, role]
-            sql1 = "INSERT INTO EXPENSES (G_ID, description, expense, date, user, amount, role) VALUES (?,?,?,?,?,?,?)";
-            db.query(sql1, cols, (err) => {
-                if(err) {
-                    console.log(err);
-                    res.json({
-                        success: false,
-                        msg: ''
-                    })
-                    return;
-                }
-            })
+            // for(let i = 0; i < inside.length; i++){
+            //     let role = false
+            //     console.log(data[i].G_ID, fdata.description, fdata.expense, fdata.date, inside[i].member, amount, role);
+            //     cols = [data[i].G_ID, fdata.description, fdata.expense, fdata.date, inside[i].member, amount, role]
+            //     sql1 = "INSERT INTO EXPENSES (G_ID, description, expense, date, user, amount, role) VALUES (?,?,?,?,?,?,?)";
+            //     db.query(sql1, cols, (err) => {
+            //         if(err) {
+            //             console.log(err);
+            //             res.json({
+            //                 success: false,
+            //                 msg: ''
+            //             })
+            //             return;
+            //         }
+            //     })
+            //     let cols2 = [data[i].G_ID, fdata.description, fdata.host, inside[i].member, amount, fdata.date, 'create']
+            //     db.query("INSERT INTO ACTIVITY (G_ID, description, host, user, amount, date, action) VALUES (?,?,?,?,?,?,?)", cols2, (err) => {
+            //         if(err) {
+            //             console.log(err);
+            //             res.json({
+            //                 success: false,
+            //                 msg: ''
+            //             })
+            //             return;
+            //         }
+            //     })
+            // }
+            // let outside = data.filter(d => d.member === fdata.host)
+            // console.log("outside", outside);
+            // console.log("this is user amount before", amount);
+            // amount = 0 - amount
+            // console.log("this is user amount after", amount);
+            // let role = true
+            // console.log(outside[0].G_ID, fdata.description, fdata.expense, fdata.date, outside[0].member, amount, role);
+            // cols = [outside[0].G_ID, fdata.description, fdata.expense, fdata.date, outside[0].member, amount, role]
+            // sql1 = "INSERT INTO EXPENSES (G_ID, description, expense, date, user, amount, role) VALUES (?,?,?,?,?,?,?)";
+            // db.query(sql1, cols, (err) => {
+            //     if(err) {
+            //         console.log(err);
+            //         res.json({
+            //             success: false,
+            //             msg: ''
+            //         })
+            //         return;
+            //     }
+            // })
             res.json({
                 success: true
             })
@@ -97,7 +97,7 @@ class expensesRouter{
 
     getUserInfo(db, req, res) {
         console.log("req.body: ", req.body);
-        db.query(`SELECT e1.G_ID,e1.description,e2.amount,e1.user,e2.user,a.username,a.picture FROM expenses AS e1 JOIN expenses AS e2 JOIN account as a ON a.ID= e2.user WHERE e2.role!=1 AND e1.user='${req.body.ID}' AND e1.description = e2.description AND e1.amount < 0 AND e2.amount > 0`, (err, data, fields) => {
+        db.query(`SELECT e1.G_ID,e1.description,e2.amount,e1.user,e2.user,a.username,a.picture FROM expenses AS e1 JOIN expenses AS e2 JOIN account as a ON a.ID= e2.user WHERE e2.role!=1 AND e1.user='${req.body.ID}' AND e1.description = e2.description AND e1.amount > 0 AND e2.amount < 0`, (err, data, fields) => {
             if(err) {
                 res.status(401).json({
                     success: false,
@@ -243,7 +243,7 @@ class expensesRouter{
     calculate(db, req, res) {
         console.log("req.body: ", req.body);
         // let fdata = req.body;
-        db.query(`SELECT user,SUM(amount) as total,ACCOUNT.picture,ACCOUNT.username FROM EXPENSES JOIN ACCOUNT ON EXPENSES.user=ACCOUNT.ID WHERE G_ID='${req.body.id}' GROUP BY user`, (err, data, fields) => {
+        db.query(`SELECT e.user,SUM(amount) as total,t.rejection,a.picture,a.username FROM EXPENSES as e JOIN ACCOUNT as a ON e.user=a.ID JOIN TEAM as t ON t.member=e.user and t.G_ID=e.G_ID WHERE e.G_ID='${req.body.id}' and t.rejection != 1 GROUP BY user,rejection`, (err, data, fields) => {
             if(err) {
                 console.log(err);
                 res.json({

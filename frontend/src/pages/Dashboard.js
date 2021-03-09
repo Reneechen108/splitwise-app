@@ -147,7 +147,7 @@ function Dashboard() {
 
     console.log("expense",expense);
     
-    let dashContent = recentActivity ? <Activity /> : (expense && expense.length>0 ? <Expenses id={expense[0].G_ID} name={name} key={Math.random()}/> : <Expenses no={"There is no activity"} id={picID} name={name} key={Math.random()}/> )
+    let dashContent = recentActivity ? <Activity /> : (expense && expense.length>0 ? <Expenses id={expense[0].G_ID} name={name} key={Math.random()}/> : <Expenses no={"No recent activity to show"} id={picID} name={name} key={Math.random()}/> )
 
     let content = display==="display" ? <>
         <Col sm={9} style={{display:display}}>
@@ -174,10 +174,16 @@ function Dashboard() {
             </Row>
             <Row className="justify-content-md-center" style={{height: "100%"}}>
                 <Col style={{borderRight: "1px solid black", padding: 0}}>
-                    {groupInfoTwo}
+                    {twoGroup.length > 0 ? groupInfoTwo : 
+                    <div style={{textAlign:"center"}}>
+                        No recent activity to show
+                    </div>}
                 </Col>
                 <Col className="ml-3">
-                    {groupInfoThree}
+                    {threeGroup.length > 0 ? groupInfoThree : 
+                    <div style={{textAlign:"center"}}>
+                        No recent activity to show
+                    </div>}
                 </Col>
             </Row>
         </Col>

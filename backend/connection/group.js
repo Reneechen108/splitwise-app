@@ -78,7 +78,7 @@ class getGroupRouter{
 
     reject(db, req, res) {
         console.log("!!!!!inside reject");
-        db.query(`UPDATE TEAM SET rejection=true WHERE member="${req.body.user}" AND name='${req.body.name}'`, (err, data, fields) => {
+        db.query(`UPDATE TEAM SET rejection=true,invitation=false WHERE member="${req.body.member}" AND name='${req.body.name}'`, (err, data, fields) => {
             if(err) {
                 console.log(err);
                 res.json({

@@ -96,7 +96,7 @@ class DashNav extends React.Component {
             },
             body: JSON.stringify({
                 name: e.target.id,
-                user: parseInt(localStorage.getItem('authID'))
+                member: parseInt(localStorage.getItem('authID'))
             })
         }).then(res => res.json()).then(result=>{
             // console.log("result.dataset: ", result.dataset);

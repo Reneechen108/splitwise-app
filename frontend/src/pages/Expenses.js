@@ -21,6 +21,8 @@ function Expenses(props) {
     const [display,setDisplay] = useState("none")
     const [picture,setPicture] = useState()
     const [name,setName] = useState()
+    const [change,setChange] = useState()
+    const [userInfo, setUserInfo] = useState()
 
     const {activities} = useContext(ActivityContext)
     const {groups} = useContext(GroupContext)
@@ -49,25 +51,38 @@ function Expenses(props) {
     }
 
     function leave(){
-        let activity = activities.filter(a=> a.G_ID === props.id)
-
-        if(activity.length > 0){
-            alert("You should pay off all/get pack all the expenses before you leave the group!")
-        }else{
-            fetch(leave_URL, {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: props.name,
-                    member: localStorage.getItem('authID')
-                })
-            }).then(res => res.json()).then(result=>{
-                console.log(result.dataset);
+        const calculate_URL = `${DB}/calculate`
+        fetch(calculate_URL, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: props.id
             })
-        }
+        }).then(res => res.json()).then(result=>{
+            let user = result.dataset.filter(u=> u.user === localStorage.getItem('authID'))
+            if(user[0].total === 0){
+                console.log("leave");
+                fetch(leave_URL, {
+                    method: 'post',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: props.name,
+                        member: localStorage.getItem('authID')
+                    })
+                }).then(res => res.json()).then(result=>{
+                    console.log(result.dataset);
+                    setTimeout(refreshPage, 1000)
+                })
+            }else{
+                alert("You should pay off all/get pack all the expenses before you leave the group!")
+            }
+        })
     }
 
     function toggleDisplay(){
@@ -84,7 +99,7 @@ function Expenses(props) {
 
     async function update(){
         const formData = new FormData();
-        formData.append('name', name);
+        formData.append('name', change);
         formData.append('id', props.id);
         formData.append('update', 'update');
         formData.append('upload','group');
@@ -141,7 +156,7 @@ function Expenses(props) {
                 <Col sm={8}>
                     <h4>Change Group Information</h4>
                     <h6>My new group name shall be called...</h6>
-                    <Form.Control type="text" placeholder={props.name} onChange={({target}) => setName(target.value)}/>
+                    <Form.Control type="text" placeholder={props.name} onChange={({target}) => setChange(target.value)}/>
                 </Col>
             </Row>
             <Row className="justify-content-md-center">
