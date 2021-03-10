@@ -39,11 +39,6 @@ class getUserRouter{
                 return;
             }
             res.status(200).json({dataset: data})
-
-            // res.json({
-            //     success: true,
-            //     dataset: data
-            // });
             return;
         });
     }

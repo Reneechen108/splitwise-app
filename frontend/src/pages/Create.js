@@ -36,8 +36,6 @@ function Create(props) {
             </>
         );
     }
-    if(document.getElementById('display'))
-        console.log("html: ", document.getElementById('display').innerHTML);
 
     function toggleDisplay(){
         if(display === "none")

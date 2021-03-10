@@ -67,10 +67,7 @@ class getGroupRouter{
                 })
                 return;
             }
-            res.json({
-                success: true,
-                dataset: data
-            });
+            res.status(200).json({success: true, dataset: data, msg: 'Accept invitation successfully'})
             console.log("update successfully");
             return;
         });

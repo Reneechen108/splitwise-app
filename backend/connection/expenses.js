@@ -86,11 +86,12 @@ class expensesRouter{
                 })
                 return;
             }
+            res.status(200).json({success: true, dataset: data, msg: 'Done with getting all expense'})
             console.log("inside getExpenses", data);
-            res.json({
-                success: true,
-                dataset: data
-            })
+            // res.json({
+            //     success: true,
+            //     dataset: data
+            // })
             return;
         })
     }

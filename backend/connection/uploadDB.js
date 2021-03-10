@@ -38,10 +38,7 @@ const uploadFiles = async (req, res) => {
                     // console.log(data1[0]);
                     if(data1[0]){
                         exist = true;
-                        res.json({
-                            success: false,
-                            msg: 'Group name already exist!'
-                        })
+                        res.status(400).json({error: 'Group name already exist!'})
                         return;
                     }else{
                         console.log("running insert");

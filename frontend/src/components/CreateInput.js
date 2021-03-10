@@ -20,7 +20,6 @@ class CreateInput extends React.Component {
     async componentDidMount(){
         let Search_URL = `${DB}/searchUser`
         const res = await axios.get(Search_URL)
-        console.log("res dataset",res.data);
         this.setState({
             users: res.data.dataset
         })
@@ -29,12 +28,6 @@ class CreateInput extends React.Component {
     handleSearch(event){
         event.preventDefault();
         let target = event.target;
-        // console.log("target",target.name, target.value);
-        if(this.state.users){
-            console.log("users", this.state.users);
-        }else{
-            console.log("no user");
-        }
         if(target.name === "username"){
             this.setState(
                 {username: target.value}
@@ -66,7 +59,6 @@ class CreateInput extends React.Component {
             user = this.state.users.filter(u => (u.username === this.state.username || u.email === this.state.email) && currentName !== u.username && currentEmail !== u.email)
         }
         if(user[0]){
-            console.log("user[0]", user[0]);
             let currentName = user[0].username
             let currentEmail = user[0].email
             pic = user[0].picture
