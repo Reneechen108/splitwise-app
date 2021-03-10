@@ -43,8 +43,8 @@ function Profile() {
 
     
     useEffect( ()=>{
-        try{
-            fetch(getAll_URL, {
+        async function load(){
+            await fetch(getAll_URL, {
                 method: 'post',
                 headers: {
                     'Accept': 'application/json',
@@ -54,11 +54,11 @@ function Profile() {
                     email: emailID
                 })
             }).then(res => res.json()).then(result=>{
+                console.log("!!!!!!",result.dataset);
                 setUser(result.dataset)
             })
-        }catch(e){
-            console.log(e);
         }
+        load()
     },[picture])
 
     function handleUpdate(){
@@ -128,9 +128,8 @@ function Profile() {
                 <Form.Label key={Math.random()}>
                     {'Your ' +title[number]}
                     <Button variant="link" onClick={toggleDisplay} key={Math.random()}><FontAwesomeIcon icon={faPen} />Edit</Button><br />
-                    {user[0][title[number]]}
+                    <div data-testid="name-input-box">{user[0][title[number]]}</div>
                 </Form.Label>
-                <br />
                 <br />
                 </>
             );

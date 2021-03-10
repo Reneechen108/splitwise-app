@@ -17,19 +17,24 @@ class CreateInput extends React.Component {
         this.handleSearch = this.handleSearch.bind(this)
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         let Search_URL = `${DB}/searchUser`
-        axios.get(Search_URL)
-            .then((response) => {
-            this.setState({
-                users: response.data.dataset
-            })
-        });
+        const res = await axios.get(Search_URL)
+        console.log("res dataset",res.data);
+        this.setState({
+            users: res.data.dataset
+        })
     }
     
     handleSearch(event){
         event.preventDefault();
         let target = event.target;
+        // console.log("target",target.name, target.value);
+        if(this.state.users){
+            console.log("users", this.state.users);
+        }else{
+            console.log("no user");
+        }
         if(target.name === "username"){
             this.setState(
                 {username: target.value}
@@ -48,7 +53,7 @@ class CreateInput extends React.Component {
         let name = '';
         let form = <>
                 <Col sm={4}>
-                    <Form.Control type="text" placeholder="Enter username" onChange={this.handleSearch} value={this.state.username} name="username"/>
+                    <Form.Control type="text" placeholder="Enter username" onChange={this.handleSearch} value={this.state.username} name="username" data-testid="name-input-box"/>
                     {/* {displayUser} */}
                 </Col>
                 <Col sm={5}>
@@ -65,20 +70,21 @@ class CreateInput extends React.Component {
             let currentName = user[0].username
             let currentEmail = user[0].email
             pic = user[0].picture
-            name = <div style={{width: "300px"}}>{currentName}({currentEmail})</div>
+            name = <div style={{width: "300px"}} data-testid="name-output-box">Added {currentName}({currentEmail})</div>
             form = <Col md="8"></Col>
-            this.props.createItem({
-                ID: user[0].ID,
-                username: user[0].username
-            });
+            // this.props.createItem({
+            //     ID: user[0].ID,
+            //     username: user[0].username
+            // });
         }
         return (
         <>
             <Row>
-                <Col sm={2}>
+                <Col sm={1}>
                     <Image src={pic} roundedCircle style={{width: "30px", height: "30px"}}/>
                 </Col>
                 {name}
+                
                 {form}
             </Row>
         </>

@@ -31,17 +31,19 @@ class getUserRouter{
         db.query('SELECT * FROM ACCOUNT', (err, data, fields) => {
             if(err) {
                 console.log(err);
-                res.json({
-                    success: false,
-                    msg: ''
-                })
+                res.status(401).json({errors: "errors hapended"})
+                // res.json({
+                //     success: false,
+                //     msg: ''
+                // })
                 return;
             }
-            //console.log(data);
-            res.json({
-                success: true,
-                dataset: data
-            });
+            res.status(200).json({dataset: data})
+
+            // res.json({
+            //     success: true,
+            //     dataset: data
+            // });
             return;
         });
     }

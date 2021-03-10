@@ -29,7 +29,7 @@ function Create(props) {
     for (let i = 0; i < number; i++) {
         items.push(
             <>
-            <div style={{display: "flex"}}>
+            <div style={{display: "flex"}} key={i}>
                 <CreateInput createItem={handleSearch}/>
                 <FontAwesomeIcon icon={faTimes} onClick={() => setNumber(number-1)}></FontAwesomeIcon>
             </div>
@@ -81,6 +81,7 @@ function Create(props) {
     }
 
     function search(e){
+        setInput(e.target.value)
         props.search({value: e.target.value})
     }
 
@@ -92,6 +93,8 @@ function Create(props) {
                 aria-label="groups"
                 aria-describedby="basic-addon2"
                 onChange={search}
+                value={input}
+                data-testid="name-input-box"
                 />
                 <InputGroup.Append>
                 <Button variant="outline-secondary" onClick={toggleDisplay}>+ add</Button>

@@ -30,7 +30,7 @@ function Balance(props) {
     },[props.id])
 
     let userTotal;
-    if(userInfo)
+    if(userInfo){
         userTotal = userInfo.map((info, index) => <>
         <Row key={Math.random()}>
             <Col md={3} key={Math.random()}>
@@ -49,11 +49,16 @@ function Balance(props) {
             </Col>
         </Row>
         </>)
-    return (
+        return (
         <>    
         {userTotal}
         </>
-    )
+        )
+    }else{
+        return(<div>Waiting for calculation...</div>)
+    }
+        
+    
 }
 
 export default Balance
