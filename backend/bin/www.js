@@ -2,15 +2,13 @@ const db = require('../connection/db');
 const signup = require('../connection/signup');
 const signin = require('../connection/signin');
 const getUser = require('../connection/user');
+
 const uploadController = require("../connection/uploadDb");
 const upload = require("../connection/upload");
+
 const getGroup = require('../connection/group');
 const getExpenses = require('../connection/expenses');
 const getActivity = require('../connection/activity');
-
-
-// const multer = require('multer');
-// const upload = multer('public/user');
 
 var express = require("express");
 var bodyParser = require("body-parser");
