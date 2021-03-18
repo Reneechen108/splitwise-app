@@ -64,7 +64,7 @@ function Expenses(props) {
         }).then(res => res.json()).then(result=>{
             let user = result.dataset.filter(u=> u.user === localStorage.getItem('authID'))
             if(user[0].total === 0){
-                console.log("leave");
+                // console.log("leave");
                 fetch(leave_URL, {
                     method: 'post',
                     headers: {
@@ -76,7 +76,7 @@ function Expenses(props) {
                         member: localStorage.getItem('authID')
                     })
                 }).then(res => res.json()).then(result=>{
-                    console.log(result.dataset);
+                    // console.log(result.dataset);
                     setTimeout(refreshPage, 1000)
                 })
             }else{
@@ -94,7 +94,7 @@ function Expenses(props) {
 
     const createItem= async(newItem) => {
         setPicture(newItem.image)
-        console.log("inside createItem");
+        // console.log("inside createItem");
     }
 
     async function update(){
@@ -112,19 +112,18 @@ function Expenses(props) {
                 "Content-Type": "multipart/form-data"
             }
         }).then(response => {
-            console.log("response", response);
+            // console.log("response", response);
             setTimeout(refreshPage, 1000);
         });
     }
 
-    console.log("props name", props.name);
+    // console.log("props name", props.name);
     return (
         <>
         <Col sm={6}>
             <Jumbotron style={{padding: "10px"}}>
                     <Container>
                         <Row>   
-                            {console.log("picture", pic)}
                             <Image src={pic ? pic : logo} style={{width: "50px",height: "50px"}} />
                             <h3>{props.name} Expenses</h3>
                             <SingleExpense />

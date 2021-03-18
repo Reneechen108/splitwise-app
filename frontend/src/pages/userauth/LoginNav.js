@@ -26,7 +26,7 @@ class LoginNav extends Component {
     }
 
     render() {
-        console.log("this.props.auth", this.props.auth);
+        // console.log("this.props.auth", this.props.auth);
         return (
         <>
         <Navbar>
@@ -58,7 +58,7 @@ class LoginNav extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("state", state);
+    // console.log("state", state);
     return {
         auth: state.auth
     }

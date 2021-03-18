@@ -20,7 +20,7 @@ function ActivityInput(props) {
     let currentInfo
     let groupName
     if(props.value && user){
-        console.log("props.value", props.value);
+        // console.log("props.value", props.value);
         month = monthNames[parseInt(props.value.date.substring(5, 7))-1].substring(0,3)
         data = props.value.date.substring(8, 10)
         if(props.value.action === "paid"){

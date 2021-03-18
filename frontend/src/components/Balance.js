@@ -4,7 +4,7 @@ import logo from '../images/form.png'
 import {DB} from '../constants/DB'
 
 function Balance(props) {
-    console.log("balance", props.id);
+    // console.log("balance", props.id);
     const [userInfo, setUserInfo] = useState()
 
     const calculate_URL = `${DB}/calculate`
@@ -22,7 +22,7 @@ function Balance(props) {
             }).then(res => res.json()).then(result=>{
                 // setUser(result.dataset)
                 setUserInfo(result.dataset)
-                console.log("calculate: ",result.dataset);
+                // console.log("calculate: ",result.dataset);
             })
         }catch(e){
             console.log(e);

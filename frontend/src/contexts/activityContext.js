@@ -23,7 +23,7 @@ function ActivityProvider({children}) {
                 })
             }).then(res => res.json()).then(result=>{
                 setActivities(result.dataset)
-                console.log("this is a activity context", result.dataset);
+                // console.log("this is a activity context", result.dataset);
             })
         }catch(e){
             console.log(e);

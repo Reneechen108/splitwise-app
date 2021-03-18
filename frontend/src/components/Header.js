@@ -14,7 +14,7 @@ class Header extends Component {
     render(){
         const {isAuthenticated} = this.props.auth
 
-        console.log("isAuthenticated", isAuthenticated);
+        // console.log("isAuthenticated", isAuthenticated);
         const signinLink = (
             <Navbar bg="light" variant="dark">
             <Navbar.Brand href="#home" style={{color: "black"}} className="col-md-9 col-sm-6">
@@ -48,7 +48,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("state", state);
+    // console.log("state", state);
     return {
         auth: state.auth
     }

@@ -30,7 +30,7 @@ function UserProvider({children}) {
                 })
             }).then(res => res.json()).then(result=>{
                 setUser(result.dataset)
-                console.log("this is a user context", result.dataset);
+                // console.log("this is a user context", result.dataset);
             })
         }catch(e){
             console.log(e);
@@ -40,7 +40,7 @@ function UserProvider({children}) {
     function handleChange(event){
         const value = event.target.value;
         const name = event.target.name;
-        console.log(value, name);
+        // console.log(value, name);
         if(name === "username"){
             setUsername(value);
         }

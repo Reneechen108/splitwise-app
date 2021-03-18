@@ -22,7 +22,7 @@ function Create(props) {
     let userList = []
 
     const handleSearch = (newItem) => {
-        console.log("newItem", newItem);
+        // console.log("newItem", newItem);
         userList.push(newItem)
     }
 
@@ -50,7 +50,7 @@ function Create(props) {
 
     const createItem= async(newItem) => {
         setPicture(newItem.image)
-        console.log("inside createItem");
+        // console.log("inside createItem");
     }
 
     async function allUser(){
@@ -59,7 +59,7 @@ function Create(props) {
         userList.map(u => members.push(u.ID))
         members.push(parseInt(current))
         setUsers(members)
-        console.log(picture, group, members);
+        // console.log(picture, group, members);
         const formData = new FormData();
         formData.append('name', group);
         formData.append('users', members);

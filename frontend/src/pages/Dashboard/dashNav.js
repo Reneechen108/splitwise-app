@@ -41,7 +41,7 @@ class DashNav extends React.Component {
                 id: localStorage.getItem('authID')
             })
         }).then(res => res.json()).then(result=>{
-            console.log("result.dataset: ", result.dataset);
+            // console.log("result.dataset: ", result.dataset);
             this.setState({
                 allGroups: result.dataset,
                 groups: result.dataset
@@ -57,12 +57,12 @@ class DashNav extends React.Component {
             name: currentGroup[0].name,
             recent: ''
         });
-        console.log("inside getGroup", currentGroup[0].id);
+        // console.log("inside getGroup", currentGroup[0].id);
     }   
 
     handleAccept(e){
-        console.log(e.target.id);
-        console.log("accpet this invitation");
+        // console.log(e.target.id);
+        // console.log("accpet this invitation");
         let accept_URL = `${DB}/accpet`
         fetch(accept_URL, {
             method: 'post',
@@ -85,8 +85,8 @@ class DashNav extends React.Component {
     }
 
     handlReject(e){
-        console.log(e.target.id);
-        console.log("reject this invitation");
+        // console.log(e.target.id);
+        // console.log("reject this invitation");
         let accept_URL = `${DB}/reject`
         fetch(accept_URL, {
             method: 'post',
@@ -115,14 +115,14 @@ class DashNav extends React.Component {
     search = async(newItem) => {
         let searchGroup = []
         searchGroup = this.state.allGroups.filter(g => g.name === newItem.value)
-        console.log("searchGroup", searchGroup);
+        // console.log("searchGroup", searchGroup);
         if(searchGroup.length > 0)
             this.setState({groups: searchGroup, found: 'found'})
         if(newItem.value===""){
             this.setState({groups: this.state.allGroups, found: 'found'})
-            console.log("here");
+            // console.log("here");
         }
-        console.log("this.state.groups", this.state.groups);
+        // console.log("this.state.groups", this.state.groups);
     }
     
     recent(){

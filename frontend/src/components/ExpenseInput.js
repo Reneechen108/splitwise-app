@@ -31,9 +31,9 @@ function ExpenseInput(props) {
             userInfo = <h6>{u1[0].username}</h6>
             paid = <h4>USD${props.value.amount}</h4>
         }else{
-            console.log("all activity", activities)
+            // console.log("all activity", activities)
             let filterData = activities.filter(a => a.E_ID === props.value.E_ID)
-            console.log("filterData", filterData);
+            // console.log("filterData", filterData);
             if(filterData.length > 0){
                 month = monthNames[parseInt(filterData[0].date.substring(5, 7))-1].substring(0,3)
                 data = filterData[0].date.substring(8, 10)

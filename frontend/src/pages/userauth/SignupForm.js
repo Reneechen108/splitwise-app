@@ -35,10 +35,10 @@ class SignupForm extends Component{
             (res)=>{
                 if(this.props.msg && this.props.msg.msg)
                     this.setState({errors: this.props.msg})
-                console.log("this.props.msg",this.props.msg);
+                // console.log("this.props.msg",this.props.msg);
                 if(this.props.msg && this.props.msg.success){
-                    console.log("this.props.msg",this.props.msg);
-                    console.log("this.props.msg.success",this.props.msg.success);
+                    // console.log("this.props.msg",this.props.msg);
+                    // console.log("this.props.msg.success",this.props.msg.success);
                     setTimeout(this.refreshPage, 1000);
                 }
             },
@@ -94,7 +94,7 @@ class SignupForm extends Component{
     }
 }
 const mapStateToProps = (state) => {
-    console.log("state", state);
+    // console.log("state", state);
     return {
         msg: state.auth.msg
     }

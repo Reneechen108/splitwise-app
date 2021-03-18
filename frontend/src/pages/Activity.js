@@ -18,7 +18,7 @@ function Activity() {
         });
     }
 
-    console.log("expenseList", expenseList);
+    // console.log("expenseList", expenseList);
     expenseList.sort((a, b) => (a.props.value.date > b.props.value.date) ? -1 : 1)
 
     return (

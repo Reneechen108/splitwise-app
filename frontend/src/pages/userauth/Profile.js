@@ -54,7 +54,7 @@ function Profile() {
                     email: emailID
                 })
             }).then(res => res.json()).then(result=>{
-                console.log("!!!!!!",result.dataset);
+                // console.log("!!!!!!",result.dataset);
                 setUser(result.dataset)
             })
         }
@@ -157,7 +157,7 @@ function Profile() {
         setPicture(newItem.image)
         setEmail(emailID)
         setup()
-        console.log(newItem.image);
+        // console.log(newItem.image);
         // console.log("inside createItem");
     }
     

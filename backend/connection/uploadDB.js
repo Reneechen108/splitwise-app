@@ -1,9 +1,10 @@
 const db = require('../connection/db');
+var Constants = require('../constants/connectDB')
 
 const uploadFiles = async (req, res) => {
     try {
-        console.log("uploadFiles");
-        console.log("req.body!!!!", req.body);
+        // console.log("uploadFiles" + Constants.PATH_PIC);
+        // console.log("req.body!!!!", req.body);
         sql = '';
         if(req.body.upload === 'group'){
             if(req.body.update==='update'){
@@ -18,7 +19,8 @@ const uploadFiles = async (req, res) => {
                     }
                 })
             }
-            file_path =  'http://localhost:9000/group_pic/';
+            // console.log("+++++Constants", Constants.PATH_PIC);
+            file_path =  Constants.PATH_PIC + 'group_pic/';
             sql = 'SELECT max(G_ID) as ID FROM Team';
             db.query(sql, (err, data) => {
                 console.log(data);
@@ -93,7 +95,8 @@ const uploadFiles = async (req, res) => {
                 })
             });
         } else{
-            file_path = 'http://localhost:9000/user_pic/';
+            
+            file_path = Constants.PATH_PIC + 'user_pic/';
             sql = `SELECT ID FROM ACCOUNT WHERE email = '${req.body.emailID}'`;
             db.query(sql, (err, data) => {
                 console.log(data);

@@ -71,7 +71,7 @@ function SingleExpense() {
     let newG
     
     function cancel(){
-        console.log("click");
+        // console.log("click"); 
         searchGroup = <Row style={{borderBottom: "1px solid black"}}>
             With you and: <Form.Control type="text" placeholder="Enter group name" onChange={({ target }) => setInput(target.value)}  value={input} name="group" style={{width: "70%", marginLeft: "20px"}}/>
         </Row>
@@ -79,7 +79,7 @@ function SingleExpense() {
     }
 
     if(groups){
-        console.log(groups);
+        // console.log(groups);
         newG = groups.filter((g) => (g.name === input && g.invitation===1))
         searchGroup = newG[0] ? 
         <>

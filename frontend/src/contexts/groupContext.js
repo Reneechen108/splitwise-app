@@ -8,7 +8,7 @@ function GroupProvider({children}) {
     const getAll_URL= `${DB}/allGroup`
     const update_URL= `${DB}/update`
     const emailID = localStorage.getItem('authEmail');
-    console.log("this is email", emailID);
+    // console.log("this is email", emailID);
 
     useEffect( ()=>{
         try{
@@ -23,7 +23,7 @@ function GroupProvider({children}) {
                 })
             }).then(res => res.json()).then(result=>{
                 setGroups(result.dataset)
-                console.log("this is a group context", result.dataset);
+                // console.log("this is a group context", result.dataset);
             })
         }catch(e){
             console.log(e);
