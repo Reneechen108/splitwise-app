@@ -53,6 +53,7 @@ class signupRouter {
 
             await this.beginTran(db);
             // save user infomation to account
+            // const picture = 'http://localhost:9000/user_pic/0/profile.png'
             sql = `insert into ACCOUNT(username, email, psswd, phone) values ('${username}','${email}', '${password}', '${phone}')`;
             const data = await this.execSQL(db, sql);
             db.commit();//                                            commit transaction

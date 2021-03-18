@@ -55,14 +55,14 @@ function Create(props) {
 
     async function allUser(){
         let current = localStorage.getItem('authID')
-        let allUser = []
-        userList.map(u => allUser.push(u.ID))
-        allUser.push(parseInt(current))
-        setUsers(allUser)
-        console.log(picture, group, users);
+        let members = []
+        userList.map(u => members.push(u.ID))
+        members.push(parseInt(current))
+        setUsers(members)
+        console.log(picture, group, members);
         const formData = new FormData();
         formData.append('name', group);
-        formData.append('users', allUser);
+        formData.append('users', members);
         formData.append('upload','group');
         formData.append('picture', picture);
         axios({
@@ -72,10 +72,19 @@ function Create(props) {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
-        }).then(response => {
-            if(!response.data.success)
-                alert(response.data.msg)
-        });
+        })
+        .then(response => {
+            if(response.data.success)
+                setTimeout(refreshPage, 1000);
+        })
+        .catch(err => {
+            alert(err.response.data.error);
+        })
+    //    setTimeout(refreshPage, 1000);
+    }
+        
+    function refreshPage() {
+        window.location.reload(false);
     }
 
     function search(e){

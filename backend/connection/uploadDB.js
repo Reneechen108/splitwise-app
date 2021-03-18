@@ -38,7 +38,8 @@ const uploadFiles = async (req, res) => {
                     // console.log(data1[0]);
                     if(data1[0]){
                         exist = true;
-                        res.status(400).json({error: 'Group name already exist!'})
+                        res.status(401).json({error: 'Group name already exist!'})
+                        // res.status(401).json({errors: { form: "Invalid password/username"}})
                         return;
                     }else{
                         console.log("running insert");

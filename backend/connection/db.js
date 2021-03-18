@@ -2,11 +2,11 @@ const mysql = require('mysql');
 
 //Database
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '123456789',
+    host: 'us-cdbr-east-03.cleardb.com',
+    user: 'ba265b1db19272',
+    password: 'a9c30c6a',
     // password: 'password',
-    database: 'Splitwise_273',
+    database: 'heroku_c8d35e15a098b78',
     // insecureAuth : true
 });
 // cmpe202db.chnvttzxfbpw.us-west-1.rds.amazonaws.com

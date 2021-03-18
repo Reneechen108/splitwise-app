@@ -64,10 +64,10 @@ class CreateInput extends React.Component {
             pic = user[0].picture
             name = <div style={{width: "300px"}} data-testid="name-output-box">Added {currentName}({currentEmail})</div>
             form = <Col md="8"></Col>
-            // this.props.createItem({
-            //     ID: user[0].ID,
-            //     username: user[0].username
-            // });
+            this.props.createItem({
+                ID: user[0].ID,
+                username: user[0].username
+            });
         }
         return (
         <>

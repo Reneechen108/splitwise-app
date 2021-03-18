@@ -24,9 +24,14 @@ app.use("/user_pic", express.static("public/user"));
 app.use("/group_pic", express.static("public/group"));
 
 // simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to cmpe202" });
-});
+app.get('/dashboard/:id',function(req,res){
+  console.log("inside dashboard testing...");
+  var temp = new getUser();
+  temp.getDashboardInfo(db, req, res);
+  // res.status(200).json(
+  //       "hello hello"
+  //   );
+})
 
 app.post("/signup", function(req, res) {
   // console.log("Req Body updated : ", req.body, res.body);
@@ -66,7 +71,7 @@ app.post("/searchUser", function(req, res) {
 });
 
 app.get("/searchUser", function(req, res) {
-  // console.log("Req Body : ", req.body);
+  console.log("searchUser Req Body : ", req.body);
   var temp = new getUser();
   temp.allUser(db, req, res);
 });

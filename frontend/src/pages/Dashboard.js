@@ -66,13 +66,15 @@ function Dashboard() {
         if(newItem.recent==="recent"){
             setRecentActivity(true)
         }else{
-            let expense = activities.filter(a => a.G_ID === newItem.ID)
-            console.log("expense!!!", expense);
-            setExpense(expense)
-            setName(newItem.name)
-            // console.log("group name", newItem.name);
-            setPicID(newItem.ID)
-            setRecentActivity(false)
+            if(activities){
+                let expense = activities.filter(a => a.G_ID === newItem.ID)
+                console.log("expense!!!", expense);
+                setExpense(expense)
+                setName(newItem.name)
+                // console.log("group name", newItem.name);
+                setPicID(newItem.ID)
+                setRecentActivity(false)
+            }
         }
         setDisplay("none")
         // console.log("group name", name);
@@ -101,6 +103,9 @@ function Dashboard() {
     let totalOwed = []
 
     if(userOwed&&user&&groups&&userOwe){
+        console.log("userOwed", userOwed);
+        console.log("userOwe", userOwe);
+
         let two = 0
         let three = 0
         userOwed.map((item, index) => {

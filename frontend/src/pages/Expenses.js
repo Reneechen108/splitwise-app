@@ -124,7 +124,8 @@ function Expenses(props) {
             <Jumbotron style={{padding: "10px"}}>
                     <Container>
                         <Row>   
-                            <Image src={pic} style={{width: "50px",height: "50px"}} />
+                            {console.log("picture", pic)}
+                            <Image src={pic ? pic : logo} style={{width: "50px",height: "50px"}} />
                             <h3>{props.name} Expenses</h3>
                             <SingleExpense />
                             <Button variant="secondary" className="ml-3" onClick={leave}>

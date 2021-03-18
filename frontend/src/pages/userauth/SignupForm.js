@@ -39,7 +39,7 @@ class SignupForm extends Component{
                 if(this.props.msg && this.props.msg.success){
                     console.log("this.props.msg",this.props.msg);
                     console.log("this.props.msg.success",this.props.msg.success);
-                    window.location.replace("/dashboard");
+                    setTimeout(this.refreshPage, 1000);
                 }
             },
             ({response}) => {

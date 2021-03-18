@@ -30,7 +30,7 @@ class DashNav extends React.Component {
     
     componentDidMount(){
         let group_URL = `${DB}/getGroup`
-        const expense = '/expense'
+        // const expense = '/expense'
         fetch(group_URL, {
             method: 'post',
             headers: {
