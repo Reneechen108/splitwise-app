@@ -3,7 +3,7 @@ const signup = require('../connection/signup');
 const signin = require('../connection/signin');
 const getUser = require('../connection/user');
 
-const uploadController = require("../connection/uploadDb");
+const uploadController = require("../connection/uploadDB");
 const upload = require("../connection/upload");
 
 const getGroup = require('../connection/group');
