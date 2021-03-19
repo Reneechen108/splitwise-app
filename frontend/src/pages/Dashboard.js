@@ -105,15 +105,18 @@ function Dashboard() {
     if(userOwed&&user&&groups&&userOwe){
         // console.log("userOwed", userOwed);
         // console.log("userOwe", userOwe);
-
+        let groupName;
         let two = 0
         let three = 0
         userOwed.map((item, index) => {
+            // console.log("item");
+            groupName = groups.filter(g => g.G_ID === item.G_ID);
+            // console.log("hhe", groupName);
             threeGroup.push(
                 <>
                 <div key={index}>
                     <img src={item.picture} alt="" style={{width:"30px", height: "30px"}}/>    
-                    {item.username} owes you ${item.amount} for "{item.description}"
+                    {item.username} owes you ${item.amount} for "{item.description}" in group "{groupName[0].name}"
                 </div>
                 <p style={{borderBottom: "1px solid black", padding: "3px"}}/>
                 </>
@@ -121,12 +124,17 @@ function Dashboard() {
             three += item.amount;
         })
         // console.log("inside", userOwe);
+        // console.log("these are groups", groups);
+            
         userOwe.map((item, index) => {
+            // console.log("item");
+            groupName = groups.filter(g => g.G_ID === item.G_ID);
+            // console.log("hhe", groupName);
             twoGroup.push(
                 <>
                 <div key={index}>
                     <img src={item.picture} alt="" style={{width:"30px", height: "30px"}}/>    
-                    You owe {item.username} ${item.owe} for "{item.description}"
+                    You owe {item.username} ${item.owe} for "{item.description}" in group "{groupName[0].name}"
                 </div>
                 <p style={{borderBottom: "1px solid black", padding: "3px"}}/>
                 </>

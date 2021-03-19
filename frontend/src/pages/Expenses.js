@@ -142,7 +142,7 @@ function Expenses(props) {
         </Col>
         <Col sm={3}>
             <h4>GROUP BALANCES</h4>
-            <Balance id={props.id} key={Math.random()}/>
+            {props ? <Balance id={props.id} key={Math.random()}/> : <p>Waiting for accpeting invitation...</p>}
             <Button variant="link" className="ml-3" onClick={toggleDisplay}>
                 Edit...
             </Button>
