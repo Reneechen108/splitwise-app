@@ -112,9 +112,10 @@ function Expenses(props) {
                 "Content-Type": "multipart/form-data"
             }
         }).then(response => {
-            // console.log("response", response);
-            setTimeout(refreshPage, 1000);
+            console.log("response", response);
         });
+         setTimeout(refreshPage, 1000);
+         setDisplay("none")
     }
 
     // console.log("props name", props.name);

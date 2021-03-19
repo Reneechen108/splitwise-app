@@ -63,6 +63,7 @@ function Create(props) {
         const formData = new FormData();
         formData.append('name', group);
         formData.append('users', members);
+        formData.append('update','noupdate');
         formData.append('upload','group');
         formData.append('picture', picture);
         axios({

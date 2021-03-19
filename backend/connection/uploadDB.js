@@ -17,17 +17,20 @@ const uploadFiles = async (req, res) => {
                         })
                         return;
                     }
+                    return;
                 })
             }
             // console.log("+++++Constants", Constants.PATH_PIC);
             file_path =  Constants.PATH_PIC + 'group_pic/';
             sql = 'SELECT max(G_ID) as ID FROM Team';
             db.query(sql, (err, data) => {
-                console.log(data);
+                console.log("data max G_ID", data);
                 if(data[0].ID == null)
                     picture_path = file_path + '1/profile.png';
-                else
+                else{
                     picture_path = file_path + data[0].ID + '/profile.png';
+                    console.log("group file path: ", picture_path);
+                }
                 let fdata = req.body;
                 console.log("!!!!!!!!!!!!this is fdata", fdata);
                 sql3 = `SELECT * FROM TEAM WHERE name ='${fdata.name}'`;

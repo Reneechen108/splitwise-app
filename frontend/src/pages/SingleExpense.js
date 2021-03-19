@@ -86,6 +86,7 @@ function SingleExpense() {
         <Row>
             Group name: 
             <Col sm={2}>
+                {console.log("pic", newG)}
                 <Image src={newG[0].picture} roundedCircle style={{width: "30px", height: "30px"}}/>
             </Col>
             <div style={{width: "100px"}} id="groupName">{newG[0].name}</div>
