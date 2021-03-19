@@ -27,7 +27,7 @@ const uploadFiles = async (req, res) => {
                 if(data[0].ID == null)
                     picture_path = file_path + '1/profile.png';
                 else
-                    picture_path = file_path + data[0].ID+1 + '/profile.png';
+                    picture_path = file_path + data[0].ID + '/profile.png';
                 let fdata = req.body;
                 console.log("!!!!!!!!!!!!this is fdata", fdata);
                 sql3 = `SELECT * FROM TEAM WHERE name ='${fdata.name}'`;
